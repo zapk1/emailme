@@ -4,48 +4,46 @@
 
 
 
-
  <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#FFFFFF">
+    <meta name="theme-color" content="#ffffff">
     <link rel="icon" href="https://i.postimg.cc/J0tWDxy0/Chat-GPT-Image-Dec-5-2025-08-45-48-AM.png">
       <link rel="stylesheet" href="style.css">
 
 
 
-
-
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EmailMe - Contact Storage</title>
+    <title>EmailMe</title>
     <link rel="icon" href__="https://cdn-icons-png.flaticon.com/512/732/732200.png" type="image/png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        :root {
-            --bg-primary: #0f0f23;
-            --bg-secondary: #1a1a2e;
-            --bg-tertiary: #25253a;
-            --bg-hover: #32324a;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0b2;
-            --accent-blue: #667eea;
-            --accent-purple: #764ba2;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-orange: #f59e0b;
-            --border-color: #32324a;
-            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
+      :root {
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-tertiary: #1a1a1a;
+    --bg-hover: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #888888;
+    --accent-blue: #ffffff;
+    --accent-purple: #cccccc;
+    --accent-green: #ffffff;
+    --accent-red: #ffffff;
+    --accent-orange: #ffffff;
+    --border-color: #333333;
+    --gradient: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+}
 
-        .light-theme {
-            --bg-primary: #f5f7fa;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #e8ecf1;
-            --bg-hover: #dde2e8;
-            --text-primary: #1a1a2e;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-        }
+      .light-theme {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-tertiary: #eeeeee;
+    --bg-hover: #e0e0e0;
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --border-color: #dddddd;
+}
 
         body {
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -53,6 +51,197 @@
             color: var(--text-primary);
             min-height: 100vh;
             transition: all 0.3s ease;
+        }
+
+        /* ========== AUTH SCREENS ========== */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #25253a 100%);
+        }
+
+        .auth-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+        }
+
+        .auth-logo h1 {
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .auth-logo p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 28px;
+            background: var(--bg-tertiary);
+            padding: 6px;
+            border-radius: 14px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth-tab.active {
+            background: var(--gradient);
+            color: #fff;
+        }
+
+        .auth-tab:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-input-group {
+            margin-bottom: 20px;
+        }
+
+        .auth-input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .auth-input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .auth-input-group input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .auth-input-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .auth-error.show {
+            display: block;
+        }
+
+        .auth-success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .auth-success.show {
+            display: block;
+        }
+
+        .password-requirements {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* ========== MAIN APP ========== */
+        .app-container {
+            display: none;
+        }
+
+        .app-container.active {
+            display: block;
         }
 
         /* Header */
@@ -94,7 +283,37 @@
             gap: 12px;
         }
 
-        .theme-btn, .add-btn-header {
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-tertiary);
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: var(--text-secondary);
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .theme-btn, .add-btn-header, .logout-btn {
             background: var(--bg-tertiary);
             border: none;
             padding: 10px 16px;
@@ -111,6 +330,16 @@
 
         .theme-btn:hover, .add-btn-header:hover {
             background: var(--bg-hover);
+        }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+
+        .logout-btn:hover {
+            background: var(--accent-red);
+            color: #fff;
         }
 
         .add-btn-header {
@@ -592,10 +821,21 @@
         @media (max-width: 768px) {
             .header {
                 padding: 12px 16px;
+                flex-wrap: wrap;
+                gap: 12px;
             }
 
             .logo h1 {
                 font-size: 20px;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .user-info {
+                display: none;
             }
 
             .main-container {
@@ -614,7 +854,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .add-btn-header span {
+            .add-btn-header span:last-child {
                 display: none;
             }
 
@@ -625,6 +865,10 @@
             .filter-select {
                 width: 100%;
             }
+
+            .auth-box {
+                padding: 28px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -632,7 +876,7 @@
                 gap: 8px;
             }
 
-            .theme-btn, .add-btn-header {
+            .theme-btn, .add-btn-header, .logout-btn {
                 padding: 10px 12px;
             }
 
@@ -675,88 +919,154 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-blue);
         }
+
+
+
+.material-symbols-outlined {
+    font-size: 20px !important;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
     </style>
+
+
+ <link rel="stylesheet" href__="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 </head>
 <body>
 
+    <!-- ========== AUTH SCREEN ========== -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-box">
+            <div class="auth-logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="EmailMe">
+                <h1>EmailMe</h1>
+                <p>Store and manage your contacts securely</p>
+            </div>
 
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+            </div>
 
+            <div class="auth-error" id="authError"></div>
+            <div class="auth-success" id="authSuccess"></div>
 
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="auth-input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="auth-input-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button class="auth-btn">
+    <span class="material-symbols-outlined">lock</span>
+    Login
+</button>
+            </form>
 
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="EmailMe">
-            <h1>EmailMe</h1>
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+                <div class="auth-input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerName" placeholder="Enter your name" required>
+                </div>
+                <div class="auth-input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="auth-input-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create a password" required minlength="6">
+                    <p class="password-requirements">Password must be at least 6 characters</p>
+                </div>
+                <div class="auth-input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="auth-btn" id="registerBtn">
+                    <span>✨</span> Create Account
+                </button>
+            </form>
         </div>
-        <div class="header-actions">
-            <button class="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
-                <span id="themeIcon">🌙</span>
-            </button>
-            <button class="add-btn-header" onclick="openAddModal()">
-                <span>➕</span>
-                <span>Add Contact</span>
-            </button>
-        </div>
-    </header>
+    </div>
 
-    <!-- Main Container -->
-    <div class="main-container">
-        <!-- Stats Bar -->
-        <div class="stats-bar">
-            <div class="stat-card">
-                <div class="stat-value" id="totalContacts">0</div>
-                <div class="stat-label">Total Contacts</div>
+    <!-- ========== MAIN APP ========== -->
+    <div class="app-container" id="appContainer">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="EmailMe">
+                <h1>EmailMe</h1>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="favoriteContacts">0</div>
-                <div class="stat-label">Favorites</div>
+            <div class="header-actions">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatarHeader">👤</div>
+                    <span class="user-email" id="userEmailHeader"></span>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
+                    <span class="material-symbols-outlined">Dark Theme</span>
+                </button>
+                <button class="add-btn-header" onclick="openAddModal()">
+                    <span class="material-symbols-outlined">➕</span></button>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </button>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="workContacts">0</div>
-                <div class="stat-label">Work</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="personalContacts">0</div>
-                <div class="stat-label">Personal</div>
-            </div>
-        </div>
+        </header>
 
-        <!-- Search and Filter -->
-        <div class="search-filter-bar">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search by name or email..." onkeyup="filterContacts()">
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalContacts">0</div>
+                    <div class="stat-label">Total Contacts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="favoriteContacts">0</div>
+                    <div class="stat-label">Favorites</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="workContacts">0</div>
+                    <div class="stat-label">Work</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="personalContacts">0</div>
+                    <div class="stat-label">Personal</div>
+                </div>
             </div>
-            <select class="filter-select" id="categoryFilter" onchange="filterContacts()">
-                <option value="all">All Categories</option>
-                <option value="personal">Personal</option>
-                <option value="work">Work</option>
-                <option value="family">Family</option>
-                <option value="friends">Friends</option>
-                <option value="other">Other</option>
-            </select>
-            <select class="filter-select" id="favoriteFilter" onchange="filterContacts()">
-                <option value="all">All Contacts</option>
-                <option value="favorites">Favorites Only</option>
-            </select>
-        </div>
 
-        <!-- Contacts Grid -->
-        <div class="contacts-grid" id="contactsGrid">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Loading contacts...</p>
+            <!-- Search and Filter -->
+            <div class="search-filter-bar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by name or email..." onkeyup="filterContacts()">
+                </div>
+                <select class="filter-select" id="categoryFilter" onchange="filterContacts()">
+                    <option value="all">All Categories</option>
+                    <option value="personal">Personal</option>
+                    <option value="work">Work</option>
+                    <option value="family">Family</option>
+                    <option value="friends">Friends</option>
+                    <option value="other">Other</option>
+                </select>
+                <select class="filter-select" id="favoriteFilter" onchange="filterContacts()">
+                    <option value="all">All Contacts</option>
+                    <option value="favorites">Favorites Only</option>
+                </select>
+            </div>
+
+            <!-- Contacts Grid -->
+            <div class="contacts-grid" id="contactsGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading contacts...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -766,9 +1076,21 @@
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal()">✕</button>
             <div class="modal-title">
-                <span id="modalIcon">👤</span>
+                <span id="modalIcon"></span>
                 <span id="modalTitle">Add New Contact</span>
             </div>
+
+            <div class="input-group">
+                <label>Full Name *</label>
+                <input type="text" id="input
+2 hours ago
+king you gave unfinished html and the script finish html where you cutted up to the end of scriptv </script>
+
+an hour ago
+Revert this
+Base44 AI
+Base44
+Here's the rest of the HTML from where I cut off:
 
             <div class="input-group">
                 <label>Full Name *</label>
@@ -826,7 +1148,8 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, onSnapshot, where, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyDDMsvRTz9nPGDk8Ob_FPRc5Boov2FVt9w",
@@ -840,46 +1163,189 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
+        const auth = getAuth(app);
 
         // ============ STATE ============
         let contacts = [];
         let editingContactId = null;
+        let currentUser = null;
+        let unsubscribeContacts = null;
 
-        // ============ LOAD CONTACTS ============
-        function loadContacts() {
-            const q = query(collection(db, 'contacts'), orderBy('createdAt', 'desc'));
+        // ============ AUTH STATE LISTENER ============
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                showApp();
+                loadContacts();
+            } else {
+                currentUser = null;
+                showAuth();
+                if (unsubscribeContacts) {
+                    unsubscribeContacts();
+                    unsubscribeContacts = null;
+                }
+            }
+        });
+
+        // ============ SHOW/HIDE SCREENS ============
+        function showAuth() {
+            document.getElementById('authContainer').style.display = 'flex';
+            document.getElementById('appContainer').classList.remove('active');
+        }
+
+        function showApp() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('appContainer').classList.add('active');
+            document.getElementById('userEmailHeader').textContent = currentUser.email;
+            document.getElementById('userAvatarHeader').textContent = currentUser.email.charAt(0).toUpperCase();
+        }
+
+        // ============ AUTH TAB SWITCHING ============
+        window.switchAuthTab = function(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
             
-            onSnapshot(q, (snapshot) => {
+            if (tab === 'login') {
+                document.querySelector('.auth-tab:first-child').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:last-child').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+            
+            hideAuthMessages();
+        };
+
+        function hideAuthMessages() {
+            document.getElementById('authError').classList.remove('show');
+            document.getElementById('authSuccess').classList.remove('show');
+        }
+
+        function showAuthError(message) {
+            const el = document.getElementById('authError');
+            el.textContent = message;
+            el.classList.add('show');
+        }
+
+        function showAuthSuccess(message) {
+            const el = document.getElementById('authSuccess');
+            el.textContent = message;
+            el.classList.add('show');
+        }
+
+        // ============ LOGIN ============
+        window.handleLogin = async function(e) {
+            e.preventDefault();
+            hideAuthMessages();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginBtn');
+            
+            if (!email || !password) {
+                showAuthError('Please enter email and password');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;border-width:2px;margin:0"></span> Logging in...';
+            
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showToast('Welcome back!');
+            } catch (error) {
+                console.error('Login error:', error);
+                let message = 'Login failed. Please try again.';
+                if (error.code === 'auth/user-not-found') message = 'No account found with this email.';
+                else if (error.code === 'auth/wrong-password') message = 'Incorrect password.';
+                else if (error.code === 'auth/invalid-email') message = 'Invalid email address.';
+                else if (error.code === 'auth/invalid-credential') message = 'Invalid email or password.';
+                showAuthError(message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>🔐</span> Login';
+            }
+        };
+
+        // ============ REGISTER ============
+        window.handleRegister = async function(e) {
+            e.preventDefault();
+            hideAuthMessages();
+            
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            const btn = document.getElementById('registerBtn');
+            
+            if (!name || !email || !password) {
+                showAuthError('Please fill in all fields');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAuthError('Password must be at least 6 characters');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAuthError('Passwords do not match');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;border-width:2px;margin:0"></span> Creating account...';
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                
+                // Save user profile to Firestore
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    name: name,
+                    email: email,
+                    createdAt: new Date().toISOString()
+                });
+                
+                showToast('Account created successfully!');
+            } catch (error) {
+                console.error('Register error:', error);
+                let message = 'Registration failed. Please try again.';
+                if (error.code === 'auth/email-already-in-use') message = 'Email is already registered.';
+                else if (error.code === 'auth/invalid-email') message = 'Invalid email address.';
+                else if (error.code === 'auth/weak-password') message = 'Password is too weak.';
+                showAuthError(message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>✨</span> Create Account';
+            }
+        };
+
+        // ============ LOGOUT ============
+        window.handleLogout = async function() {
+            if (!confirm('Are you sure you want to logout?')) return;
+            
+            try {
+                await signOut(auth);
+                contacts = [];
+                showToast('Logged out successfully!');
+            } catch (error) {
+                console.error('Logout error:', error);
+                showToast('Logout failed!', true);
+            }
+        };
+
+        // ============ LOAD CONTACTS (USER SPECIFIC) ============
+        function loadContacts() {
+            if (!currentUser) return;
+            
+            // Query contacts that belong to the current user
+            const q = query(
+                collection(db, 'contacts'), 
+                where('userId', '==', currentUser.uid),
+                orderBy('createdAt', 'desc')
+            );
+            
+            unsubscribeContacts = onSnapshot(q, (snapshot) => {
                 contacts = [];
                 snapshot.forEach(doc => {
                     contacts.push({ id: doc.id, ...doc.data() });
@@ -891,41 +1357,6 @@
                 showToast('Failed to load contacts', true);
             });
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         // ============ RENDER CONTACTS ============
         function renderContacts() {
@@ -1039,6 +1470,11 @@
 
         // ============ SAVE CONTACT ============
         window.saveContact = async function() {
+            if (!currentUser) {
+                showToast('Please login first!', true);
+                return;
+            }
+            
             const name = document.getElementById('inputName').value.trim();
             const email = document.getElementById('inputEmail').value.trim();
             const phone = document.getElementById('inputPhone').value.trim();
@@ -1065,6 +1501,7 @@
                 company,
                 avatar,
                 notes,
+                userId: currentUser.uid,
                 updatedAt: new Date().toISOString()
             };
 
@@ -1122,7 +1559,6 @@
             navigator.clipboard.writeText(email).then(() => {
                 showToast('Email copied to clipboard!');
             }).catch(() => {
-                // Fallback for older browsers
                 const input = document.createElement('input');
                 input.value = email;
                 document.body.appendChild(input);
@@ -1160,14 +1596,8 @@
                 toast.className = 'toast';
             }, 3000);
         }
-
-        // ============ INIT ============
-        loadContacts();
-
-
-
-  
-
     </script>
 </body>
 </html>
+
+
