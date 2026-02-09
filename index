@@ -1,0 +1,4321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href__="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" href__="https://i.postimg.cc/VkSMHCDc/Chat-GPT-Image-Jan-14-2026-11-42-21-AM.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamX News - Your Daily Dose of News</title>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-card: #ffffff;
+            --border-color: #e4e6eb;
+            --text-primary: #050505;
+            --text-secondary: #65676b;
+            --text-tertiary: #8a8d91;
+            --accent-blue: #1877f2;
+            --accent-dark-blue: #0c4a9e;
+            --accent-purple: #9b59b6;
+            --accent-pink: #ec4899;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --accent-hover: #166fe5;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --gradient-1-from: #00d4ff;
+            --gradient-1-to: #9b59b6;
+        }
+
+        .account-switcher {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+            animation: fadeIn 0.2s;
+        }
+
+        .account-switcher.active {
+            display: flex;
+        }
+
+        .account-switcher-panel {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            max-width: 420px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s;
+        }
+
+        .account-switcher-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            z-index: 10;
+        }
+
+        .account-switcher-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .account-list {
+            padding: 1rem;
+        }
+
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background: var(--bg-secondary);
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .account-item:hover {
+            background: var(--border-color);
+            transform: translateX(4px);
+        }
+
+        .account-item.active-account {
+            background: rgba(24, 119, 242, 0.1);
+            border: 2px solid var(--accent-blue);
+        }
+
+        .account-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .account-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .account-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .account-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .account-email {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .account-remove {
+            background: rgba(239, 68, 68, 0.1);
+            border: none;
+            color: var(--accent-red);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .account-remove:hover {
+            background: var(--accent-red);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .account-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.25rem 0.625rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .add-account-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .add-account-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .auth-modal.active {
+            display: flex;
+        }
+
+        .auth-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            max-width: 450px;
+            width: 100%;
+            padding: 2rem;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .auth-view {
+            display: block;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-switch a {
+            color: var(--accent-blue);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .google-signin-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.875rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .google-signin-btn:hover {
+            background: var(--bg-secondary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .auth-divider span {
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        .forgot-password-link {
+            text-align: right;
+            margin-top: -0.5rem;
+        }
+
+        .forgot-password-link a {
+            color: var(--accent-blue);
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .forgot-password-link a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-picture-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid white;
+            transition: all 0.3s;
+        }
+
+        .profile-picture-upload:hover {
+            background: var(--accent-hover);
+            transform: scale(1.1);
+        }
+
+        .profile-picture-upload i {
+            width: 16px;
+            height: 16px;
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .social-link-item:hover {
+            background: var(--border-color);
+        }
+
+        .social-link-item i {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-blue);
+        }
+
+        .social-link-item a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .social-link-item a:hover {
+            text-decoration: underline;
+        }
+
+        .article-stats {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-dark-blue);
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .stat-item i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .like-btn {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .like-btn:hover {
+            color: var(--accent-pink);
+            transform: scale(1.05);
+        }
+
+        .like-btn.liked {
+            color: var(--accent-pink) !important;
+        }
+
+        .like-btn.liked i {
+            fill: var(--accent-pink);
+        }
+
+        .article-date {
+            color: var(--accent-red);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .article-date i {
+            width: 14px;
+            height: 14px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .logo-gradient {
+            font-size: 1.875rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.5s ease;
+        }
+
+        .logo-text {
+            font-size: 1.875rem;
+            font-weight: 300;
+            color: var(--text-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .icon-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .icon-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2.5rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            color: white;
+            animation: fadeInUp 0.6s ease-out;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.95;
+        }
+
+        .hero-badge svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hero-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            max-width: 36rem;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 2rem;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            background: var(--bg-primary);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
+            scrollbar-width: none;
+        }
+
+        .category-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.125rem;
+            border-radius: 2rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .category-btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--text-tertiary);
+            transform: translateY(-1px);
+        }
+
+        .category-btn.active {
+            background: #e7f3ff;
+            color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .category-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, var(--border-color), transparent);
+        }
+
+        .featured-article {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .featured-card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .featured-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+
+        .post-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .post-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-author-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+        }
+
+        .post-time {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        .category-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid;
+            flex-shrink: 0;
+        }
+
+        .badge-tech { background: rgba(6, 182, 212, 0.1); color: #0891b2; border-color: rgba(6, 182, 212, 0.3); }
+        .badge-gaming { background: rgba(168, 85, 247, 0.1); color: #a855f7; border-color: rgba(168, 85, 247, 0.3); }
+        .badge-entertainment { background: rgba(236, 72, 153, 0.1); color: #ec4899; border-color: rgba(236, 72, 153, 0.3); }
+        .badge-sports { background: rgba(34, 197, 94, 0.1); color: #22c55e; border-color: rgba(34, 197, 94, 0.3); }
+        .badge-business { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+        .badge-science { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-color: rgba(59, 130, 246, 0.3); }
+        .badge-breaking { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
+        .badge-fun { background: rgba(250, 204, 21, 0.1); color: #eab308; border-color: rgba(250, 204, 21, 0.3); }
+
+        .post-content-text {
+            padding: 1.25rem;
+        }
+
+        .featured-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            color: var(--text-primary);
+        }
+
+        .featured-summary {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            background: #f0f2f5;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .featured-card:hover .featured-image img {
+            transform: scale(1.03);
+        }
+
+        .articles-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .article-card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: fadeInUp 0.4s ease-out;
+            animation-fill-mode: both;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .article-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+
+        .article-image {
+            width: 100%;
+            overflow: hidden;
+            background: #f0f2f5;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .article-card:hover .article-image img {
+            transform: scale(1.03);
+        }
+
+        .article-content {
+            padding: 1.25rem;
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.625rem;
+            line-height: 1.4;
+            color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-summary {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            margin-bottom: 0.875rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.6;
+        }
+
+        .clickable-content {
+            word-wrap: break-word;
+        }
+
+        .clickable-content a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .clickable-content a:hover {
+            text-decoration: underline;
+        }
+
+        .image-gallery {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-color) transparent;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-secondary);
+        }
+
+        .image-gallery::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .image-gallery::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+
+        .image-gallery::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .image-gallery::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
+        }
+
+        .gallery-image {
+            flex-shrink: 0;
+            width: 200px;
+            height: 150px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            scroll-snap-align: start;
+            border: 2px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .gallery-image:hover {
+            border-color: var(--accent-blue);
+            transform: scale(1.05);
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            color: #000;
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .lightbox-close:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            color: #000;
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .lightbox-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 1rem;
+        }
+
+        .lightbox-next {
+            right: 1rem;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: #000;
+            padding: 0.625rem 1.25rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .public-post-form {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+            padding: 1rem;
+        }
+
+        .public-post-form.active {
+            display: flex;
+        }
+
+        .public-post-modal {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            animation: slideUp 0.3s;
+        }
+
+        .public-post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            z-index: 10;
+        }
+
+        .public-post-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .close-modal-btn {
+            background: var(--bg-secondary);
+            border: none;
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            background: var(--border-color);
+            transform: rotate(90deg);
+        }
+
+        .public-post-body {
+            padding: 1.5rem;
+        }
+
+        .footer {
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+            background: var(--bg-primary);
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        .admin-panel {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            overflow-y: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            background: var(--bg-secondary);
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .admin-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .admin-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: slideDown 0.3s;
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.625rem;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            font-weight: 600;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+            background: var(--bg-primary);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+        }
+
+        .form-checkbox input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .image-upload-container {
+            border: 2px dashed var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--bg-secondary);
+        }
+
+        .image-upload-container:hover {
+            border-color: var(--accent-blue);
+            background: rgba(24, 119, 242, 0.05);
+        }
+
+        .image-upload-container.dragging {
+            border-color: var(--accent-blue);
+            background: rgba(24, 119, 242, 0.1);
+        }
+
+        .upload-icon {
+            margin: 0 auto 1rem;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .upload-text {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .upload-hint {
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        .upload-input {
+            display: none;
+        }
+
+        .preview-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 0.625rem;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-remove {
+            position: absolute;
+            top: 0.375rem;
+            right: 0.375rem;
+            background: rgba(239, 68, 68, 0.95);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .preview-remove:hover {
+            background: #ef4444;
+            transform: scale(1.15);
+        }
+
+        .upload-progress {
+            margin-top: 1rem;
+            background: var(--bg-secondary);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gradient-1-from), var(--gradient-1-to));
+            transition: width 0.3s;
+        }
+
+        .article-list-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+            animation: fadeInUp 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .article-list-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 1.25rem;
+        }
+
+        .article-list-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .article-list-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.625rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-primary);
+            flex-wrap: wrap;
+        }
+
+        .article-list-summary {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            margin-bottom: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .article-list-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            color: var(--text-tertiary);
+            font-size: 0.8125rem;
+        }
+
+        .article-list-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .btn-icon {
+            padding: 0.625rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+
+        .btn-icon:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 28rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2.5rem;
+            animation: fadeInUp 0.5s;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .login-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1rem;
+            animation: fadeIn 0.5s;
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.625rem;
+            font-weight: 600;
+        }
+
+        .empty-description {
+            color: var(--text-tertiary);
+            font-size: 0.9375rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: white;
+            color: black;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 200;
+            animation: slideInRight 0.3s ease-out;
+            display: none;
+            border: 1px solid var(--border-color);
+            min-width: 280px;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        .toast.success {
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #6ee7b7;
+        }
+
+        .toast.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-color: #fca5a5;
+        }
+
+        .toast.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #93c5fd;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.625rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .back-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transform: translateX(-3px);
+        }
+
+        .article-detail h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .article-detail h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .article-detail h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .article-detail p {
+            color: var(--text-secondary);
+            font-size: 1.0625rem;
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+        }
+
+        .article-detail ul {
+            margin: 1.25rem 0;
+            padding-left: 1.75rem;
+            color: var(--text-secondary);
+        }
+
+        .article-detail li {
+            margin-bottom: 0.625rem;
+            line-height: 1.7;
+        }
+
+        .article-detail strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .article-detail img {
+            border: 1px solid var(--border-color);
+        }
+
+        .article-detail a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .article-detail a:hover {
+            text-decoration: underline;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            .controls {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .search-container {
+                max-width: 22rem;
+            }
+
+            .category-filters {
+                flex: 1;
+            }
+
+            .footer-content {
+                flex-direction: row;
+            }
+
+            .article-list-content {
+                align-items: start;
+            }
+
+            .public-post-modal {
+                max-width: 700px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .logo-gradient,
+            .logo-text {
+                font-size: 1.5rem;
+            }
+
+            .nav-container {
+                height: 56px;
+                padding: 0 1rem;
+            }
+
+            .icon-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .icon-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero-logo {
+                font-size: 2.25rem;
+            }
+
+            .featured-title {
+                font-size: 1.375rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .article-list-content {
+                flex-direction: column;
+            }
+
+            .article-list-actions {
+                justify-content: flex-start;
+            }
+
+            .gallery-image {
+                width: 160px;
+                height: 120px;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="toast" class="toast"></div>
+
+    <div id="lightbox" class="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">
+            <i data-lucide="x"></i>
+        </button>
+        <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">
+            <i data-lucide="chevron-left"></i>
+        </button>
+        <div class="lightbox-content">
+            <img id="lightboxImage" class="lightbox-image" src="" alt="">
+            <div id="lightboxCounter" class="lightbox-counter"></div>
+        </div>
+        <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">
+            <i data-lucide="chevron-right"></i>
+        </button>
+    </div>
+
+    <div id="accountSwitcher" class="account-switcher">
+        <div class="account-switcher-panel">
+            <div class="account-switcher-header">
+                <h2 class="account-switcher-title">
+                    <i data-lucide="users" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-right: 0.5rem;"></i>
+                    Accounts
+                </h2>
+                <button class="close-modal-btn" onclick="closeAccountSwitcher()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="account-list" id="accountList"></div>
+        </div>
+    </div>
+
+    <div id="authModal" class="auth-modal">
+        <div class="auth-container">
+            <button class="close-modal-btn" style="position: absolute; top: 1rem; right: 1rem; z-index: 10;" onclick="closeAuthModal()">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div id="loginView" class="auth-view">
+                <h2 class="auth-title">Welcome Back</h2>
+                
+                <button class="google-signin-btn" onclick="signInWithGoogle()">
+                    <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+                    <span>Continue with Google</span>
+                </button>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="mail" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i>
+                            Email
+                        </label>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="lock" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i>
+                            Password
+                        </label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <div class="forgot-password-link">
+                        <a onclick="showForgotPassword()">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i data-lucide="log-in"></i>
+                        <span>Login</span>
+                    </button>
+                </form>
+                <p class="auth-switch">
+                    Don't have an account? <a onclick="showRegisterView()">Register</a>
+                </p>
+            </div>
+
+            <div id="registerView" class="auth-view" style="display: none;">
+                <h2 class="auth-title">Create Account</h2>
+                
+                <button class="google-signin-btn" onclick="signInWithGoogle()">
+                    <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+                    <span>Sign up with Google</span>
+                </button>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="user" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i>
+                            Full Name
+                        </label>
+                        <input type="text" class="form-input" id="regName" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="mail" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i>
+                            Email
+                        </label>
+                        <input type="email" class="form-input" id="regEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="lock" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i>
+                            Password
+                        </label>
+                        <input type="password" class="form-input" id="regPassword" placeholder="Create a password (min 6 characters)" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i data-lucide="user-plus"></i>
+                        <span>Register</span>
+                    </button>
+                </form>
+                <p class="auth-switch">
+                    Already have an account? <a onclick="showLoginView()">Login</a>
+                </p>
+            </div>
+
+            <div id="forgotPasswordView" class="auth-view" style="display: none;">
+                <h2 class="auth-title">Reset Password</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1.5rem;">Enter your email to receive a password reset link</p>
+                <form id="forgotPasswordForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="mail" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i>
+                            Email
+                        </label>
+                        <input type="email" class="form-input" id="forgotEmail" placeholder="your@email.com" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i data-lucide="send"></i>
+                        <span>Send Reset Link</span>
+                    </button>
+                </form>
+                <p class="auth-switch">
+                    Remember your password? <a onclick="showLoginView()">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="profileModal" class="auth-modal">
+        <div class="auth-container">
+            <button class="close-modal-btn" style="position: absolute; top: 1rem; right: 1rem; z-index: 10;" onclick="closeProfileModal()">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div id="viewProfile" class="auth-view">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div class="profile-avatar-large" id="profileAvatarLarge">
+                        <span id="profileInitial"></span>
+                    </div>
+                    <h2 class="auth-title" id="profileName" style="margin-top: 1rem; margin-bottom: 0.5rem;"></h2>
+                    <p id="profileEmail" style="color: var(--text-secondary);"></p>
+                    <p id="profileBio" style="margin-top: 1rem; color: var(--text-primary);"></p>
+                    
+                    <div id="profileSocialLinks" class="social-links"></div>
+                    
+                    <div id="profileStats" style="display: flex; gap: 2rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
+                        <div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-blue);" id="profilePosts">0</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem;">Posts</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-purple);" id="profileTotalLikes">0</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem;">Total Likes</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; font-weight: bold; color: var(--accent-green);" id="profileTotalViews">0</div>
+                            <div style="color: var(--text-secondary); font-size: 0.875rem;">Total Views</div>
+                        </div>
+                    </div>
+
+                    <div id="userArticles" style="margin-top: 2rem; text-align: left;"></div>
+                </div>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button id="editProfileBtn" class="btn btn-primary" style="flex: 1; display: none;" onclick="showEditProfile()">
+                        <i data-lucide="edit"></i>
+                        <span>Edit Profile</span>
+                    </button>
+                    <button id="logoutBtn" class="btn btn-secondary" style="flex: 1; display: none;" onclick="logout()">
+                        <i data-lucide="log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="editProfile" class="auth-view" style="display: none;">
+                <h2 class="auth-title">Edit Profile</h2>
+                <form id="editProfileForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Profile Picture</label>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="profile-avatar-large" id="editProfileAvatar" style="width: 80px; height: 80px; font-size: 2rem; position: relative;">
+                                <span id="editProfileInitial"></span>
+                                <div class="profile-picture-upload" onclick="document.getElementById('profilePictureInput').click()">
+                                    <i data-lucide="camera"></i>
+                                </div>
+                            </div>
+                            <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="editName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bio</label>
+                        <textarea class="form-textarea" id="editBio" placeholder="Tell us about yourself..." style="min-height: 80px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i data-lucide="globe" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i> Website URL</label>
+                        <input type="url" class="form-input" id="editWebsite" placeholder="https://yourwebsite.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i data-lucide="phone" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i> WhatsApp Number</label>
+                        <input type="tel" class="form-input" id="editWhatsapp" placeholder="+27 123 456 7890">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i data-lucide="facebook" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i> Facebook Username</label>
+                        <input type="text" class="form-input" id="editFacebook" placeholder="facebook_username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i data-lucide="instagram" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i> Instagram Username</label>
+                        <input type="text" class="form-input" id="editInstagram" placeholder="@instagram_username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i data-lucide="mail" style="width: 16px; height: 16px; display: inline; vertical-align: middle;"></i> Contact Email</label>
+                        <input type="email" class="form-input" id="editContactEmail" placeholder="contact@email.com">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i data-lucide="save"></i>
+                            <span>Save Changes</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelEditProfile()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="publicPostForm" class="public-post-form">
+        <div class="public-post-modal">
+            <div class="public-post-header">
+                <h2 class="public-post-title">
+                    <i data-lucide="pencil" style="width: 24px; height: 24px; display: inline; vertical-align: middle; margin-right: 0.5rem;"></i>
+                    Create Post
+                </h2>
+                <button class="close-modal-btn" onclick="closePublicPostForm()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="public-post-body">
+                <div id="postLoginRequired" style="text-align: center; padding: 3rem;">
+                    <i data-lucide="lock" style="width: 64px; height: 64px; color: var(--accent-purple); margin: 0 auto 1rem;"></i>
+                    <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Login Required</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">You need to be logged in to create posts</p>
+                    <button class="btn btn-primary" onclick="closePublicPostForm(); openAuthModal();">
+                        <i data-lucide="log-in"></i>
+                        <span>Login / Register</span>
+                    </button>
+                </div>
+                <form id="publicPostFormElement" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Post Title</label>
+                        <input type="text" class="form-input" id="publicTitle" placeholder="What's on your mind?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="publicSummary" placeholder="Tell us more..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Full Story (Optional)</label>
+                        <textarea class="form-textarea" id="publicContent" style="min-height: 180px;" placeholder="Write the full story here..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" id="publicCategory" required>
+                            <option value="Tech">Tech</option>
+                            <option value="Gaming">Gaming</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Business">Business</option>
+                            <option value="Science">Science</option>
+                            <option value="Breaking News">Breaking News</option>
+                            <option value="Fun">Fun</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Images (Optional - up to 5, supports base64 and URLs)</label>
+                        <div class="image-upload-container" id="publicImageUploadContainer">
+                            <i data-lucide="upload" class="upload-icon"></i>
+                            <p class="upload-text">Click to upload or drag & drop</p>
+                            <p class="upload-hint">PNG, JPG up to 5MB (max 5 images) or paste image URLs</p>
+                            <input 
+                                type="file" 
+                                id="publicImageUploadInput" 
+                                class="upload-input" 
+                                accept="image/*" 
+                                multiple
+                            >
+                        </div>
+                        <div id="publicPreviewImages" class="preview-images"></div>
+                        <div id="publicUploadProgress" class="upload-progress" style="display: none;">
+                            <div id="publicUploadProgressBar" class="upload-progress-bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="publicSubmitBtn" style="flex: 1;">
+                            <i data-lucide="send"></i>
+                            <span>Post Now</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closePublicPostForm()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container" id="logoContainer">
+                <span class="logo-gradient" id="logoGradient">StreamX</span>
+                <span class="logo-text">News</span>
+            </div>
+            <div class="nav-actions">
+                <button class="icon-btn" onclick="openPublicPostForm()" title="Create Post">
+                    <i data-lucide="plus-circle"></i>
+                </button>
+                <button id="authBtn" class="icon-btn" onclick="handleAuthButtonClick()" title="Login">
+                    <i data-lucide="log-in"></i>
+                    <span id="notificationBadge" class="notification-badge" style="display: none;">!</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="mainContent">
+        <div id="homePage" class="container">
+            <div class="hero">
+                <div class="hero-badge">
+                    <i data-lucide="sparkles"></i>
+                    <span>Your Daily Dose of News</span>
+                </div>
+                <div class="hero-logo">
+                    <span class="logo-gradient" id="heroGradient">StreamX</span>
+                    <span style="color: white; font-weight: 300;">News</span>
+                </div>
+                <p class="hero-description">
+                    Stay informed with the latest stories from tech, gaming, entertainment, and beyond.
+                </p>
+            </div>
+
+            <div class="controls">
+                <div class="search-container">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="searchInput" 
+                        placeholder="Search news..."
+                    >
+                </div>
+                <div class="category-filters" id="categoryFilters">
+                    <button class="category-btn active" data-category="All">
+                        <i data-lucide="layers"></i>
+                        <span>All</span>
+                    </button>
+                    <button class="category-btn" data-category="Tech">
+                        <i data-lucide="monitor"></i>
+                        <span>Tech</span>
+                    </button>
+                    <button class="category-btn" data-category="Gaming">
+                        <i data-lucide="gamepad-2"></i>
+                        <span>Gaming</span>
+                    </button>
+                    <button class="category-btn" data-category="Entertainment">
+                        <i data-lucide="film"></i>
+                        <span>Entertainment</span>
+                    </button>
+                    <button class="category-btn" data-category="Sports">
+                        <i data-lucide="trophy"></i>
+                        <span>Sports</span>
+                    </button>
+                    <button class="category-btn" data-category="Business">
+                        <i data-lucide="briefcase"></i>
+                        <span>Business</span>
+                    </button>
+                    <button class="category-btn" data-category="Science">
+                        <i data-lucide="atom"></i>
+                        <span>Science</span>
+                    </button>
+                    <button class="category-btn" data-category="Breaking News">
+                        <i data-lucide="zap"></i>
+                        <span>Breaking News</span>
+                    </button>
+                    <button class="category-btn" data-category="Fun">
+                        <i data-lucide="smile"></i>
+                        <span>Fun</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="allArticlesContainer"></div>
+        </div>
+                
+        <div id="articlePage" class="container article-detail" style="display: none;"></div>
+    </div>
+
+    <div id="adminPanel" class="admin-panel">
+        <div id="adminLogin" class="login-container">
+            <div class="login-card">
+                <h2 class="login-title">
+                    <i data-lucide="shield" style="width: 24px; height: 24px; display: inline; vertical-align: middle; margin-right: 0.5rem;"></i>
+                    Admin Access
+                </h2>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input 
+                            type="password" 
+                            class="form-input" 
+                            id="adminPassword" 
+                            placeholder="Enter admin password"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i data-lucide="log-in"></i>
+                        Login
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="adminContent" class="admin-container" style="display: none;">
+            <div class="admin-header">
+                <h1 class="admin-title">
+                    <i data-lucide="layout-dashboard" style="width: 28px; height: 28px; display: inline; vertical-align: middle; margin-right: 0.5rem;"></i>
+                    Admin Panel
+                </h1>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="newArticleBtn">
+                        <i data-lucide="plus"></i>
+                        <span>New Article</span>
+                    </button>
+                    <button class="btn btn-secondary" id="closeAdminBtn">
+                        <i data-lucide="x"></i>
+                        <span>Close</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="articleForm" class="admin-form" style="display: none;">
+                <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem; color: var(--text-primary); font-weight: 700;">
+                    <span id="formTitle">Create New Article</span>
+                </h3>
+                <form id="articleFormElement">
+                    <div class="form-group">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-input" id="articleTitle" placeholder="Enter article title..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Summary</label>
+                        <textarea class="form-textarea" id="articleSummary" placeholder="Brief summary of the article..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Content (Markdown supported)</label>
+                        <textarea class="form-textarea" id="articleContent" style="min-height: 300px;" placeholder="Write your full article here..."></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="articleCategory" required>
+                                <option value="Tech">Tech</option>
+                                <option value="Gaming">Gaming</option>
+                                <option value="Entertainment">Entertainment</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Business">Business</option>
+                                <option value="Science">Science</option>
+                                <option value="Breaking News">Breaking News</option>
+                                <option value="Fun">Fun</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Author</label>
+                            <input type="text" class="form-input" id="articleAuthor" placeholder="Author name...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Images (Upload up to 5 images - base64 and URLs supported)</label>
+                        <div class="image-upload-container" id="imageUploadContainer">
+                            <i data-lucide="upload" class="upload-icon"></i>
+                            <p class="upload-text">Click to upload or drag & drop</p>
+                            <p class="upload-hint">PNG, JPG up to 5MB (max 5 images)</p>
+                            <input 
+                                type="file" 
+                                id="imageUploadInput" 
+                                class="upload-input" 
+                                accept="image/*" 
+                                multiple
+                            >
+                        </div>
+                        <div id="previewImages" class="preview-images"></div>
+                        <div id="uploadProgress" class="upload-progress" style="display: none;">
+                            <div id="uploadProgressBar" class="upload-progress-bar" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-checkbox">
+                            <input type="checkbox" id="articleFeatured">
+                            <span class="form-label" style="margin: 0;">Featured Article</span>
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <i data-lucide="save"></i>
+                            <span id="submitBtnText">Publish Article</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="cancelFormBtn">
+                            <i data-lucide="x"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <h2 style="font-size: 1.5rem; margin-bottom: 1.25rem; color: var(--text-primary); font-weight: 700;">
+                    All Articles (<span id="adminArticleCount">0</span>)
+                </h2>
+                <div id="adminArticlesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="logo-container">
+                <span class="logo-gradient" style="font-size: 1.5rem;">StreamX</span>
+                <span class="logo-text" style="font-size: 1.5rem;">News</span>
+            </div>
+            <p class="footer-text">
+                © <span id="currentYear"></span> StreamX News. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDocs, getDoc, query, orderBy, onSnapshot, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDO2EKbZYfy6ah_95xDo9m8MRfXtd9BExs",
+            authDomain: "streamx-a4099.firebaseapp.com",
+            databaseURL: "https://streamx-a4099-default-rtdb.firebaseio.com",
+            projectId: "streamx-a4099",
+            storageBucket: "streamx-a4099.firebasestorage.app",
+            messagingSenderId: "1073155867607",
+            appId: "1:1073155867607:web:f4e0496523d360626a0192",
+            measurementId: "G-7DX6HDZ3S6"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // Make Firebase available globally
+        window.db = db;
+        window.auth = auth;
+        window.googleProvider = googleProvider;
+        window.firebaseModules = {
+            collection, addDoc, updateDoc, deleteDoc, doc, getDocs, getDoc, query, orderBy, onSnapshot, where,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, sendPasswordResetEmail
+        };
+
+        // Now load the main script AFTER Firebase is initialized
+        console.log('Firebase initialized successfully');
+    </script>
+
+    <script>
+        // Wait for Firebase to be initialized before running the main code
+        setTimeout(function() {
+            if (!window.firebaseModules) {
+                console.error('Firebase modules not loaded!');
+                return;
+            }
+
+            const { collection, addDoc, updateDoc, deleteDoc, doc, getDocs, getDoc, query, orderBy, onSnapshot, where } = window.firebaseModules;
+            const { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, sendPasswordResetEmail } = window.firebaseModules;
+
+            let allArticles = [];
+            let currentCategory = 'All';
+            let searchQuery = '';
+            let editingArticleId = null;
+            let clickCount = 0;
+            let clickTimer = null;
+            let uploadedImages = [];
+            let publicUploadedImages = [];
+            let lightboxImages = [];
+            let currentLightboxIndex = 0;
+            let savedAccounts = JSON.parse(localStorage.getItem('streamxAccounts') || '[]');
+            let currentUser = null;
+            let firebaseUser = null;
+            let viewedArticles = JSON.parse(localStorage.getItem('streamxViewedArticles') || '[]');
+            let likedArticles = JSON.parse(localStorage.getItem('streamxLikedArticles') || '{}');
+            let currentProfilePicture = null;
+            let deletedArticlesCount = 0;
+
+            const defaultArticles = [
+                {
+                    id: 'default_0',
+                    title: "Someone is talking from Limpopo 🤣🇿🇦",
+                    summary: "Boyz Are you 👂 very well🤣.",
+                    content: "Baa Bolela 🫢😭🍑",
+                    category: "Fun",
+                    image_url: "https://i.postimg.cc/yNmVtrqY/FB-IMG-1767696323411.jpg",
+                    author: "StreamX News",
+                    user_id: "default",
+                    featured: true,
+                    views: 156000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2025-12-15T10:30:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_1',
+                    title: "Our New Year 2026 calender 🤣",
+                    summary: "Our New year 2026 calendar 🔞🤣.",
+                    content: "We have already started our new year calendar of 2026 😭🤣.",
+                    category: "Entertainment",
+                    image_url: "https://i.postimg.cc/ZRB3zScK/1768945685543.jpg",
+                    author: "StreamX News",
+                    user_id: "default",
+                    views: 89000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-05T14:20:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_13',
+                    title: "ForexEdge is Changing Lives 🐺📈🇿🇦",
+                    summary: "We win Daily with MASSIVE INVESTMENTS 😄📈.",
+                    content: "We win Daily with MASSIVE INVESTMENTS 😄📈. ForexEdge — Turn Your Investments into Incredible Returns! Visit: https://forexedge.co.za",
+                    category: "Business",
+                    image_url: "https://i.postimg.cc/kGGWKTkx/Notepad-202601300754-36302.jpg",
+                    author: "Forex Edge Investors 🐺📈",
+                    user_id: "default",
+                    views: 124000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-28T09:45:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_11',
+                    title: "Help to find a Missing Person",
+                    summary: "DIKGALENEWS URGENT UPDATE: MISSING PERSON ALERT",
+                    content: "DIKGALENEWS URGENT UPDATE: MISSING PERSON ALERT. Sebayeng Police Seek Public Help. Anyone with information please contact local authorities.",
+                    category: "Breaking News",
+                    image_url: "https://i.postimg.cc/RhwQqtQ9/1769495808385.jpg",
+                    author: "Dikgaleng News",
+                    user_id: "default",
+                    views: 203000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-25T16:30:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_2',
+                    title: "Basadi Balena 😭",
+                    summary: "The Truth is She's not yours 😭",
+                    content: "Nice thing to know as MJITA 😄🙂‍↔️",
+                    category: "Entertainment",
+                    image_url: "https://i.postimg.cc/RZV74Tkt/FB-IMG-1767679218340.jpg",
+                    author: "Sixt SEVEN JG",
+                    user_id: "default",
+                    views: 67000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2025-12-28T18:15:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_3',
+                    title: "Tech King of this app",
+                    summary: "This guy created StreamXNews and he's promised to create streamX chat",
+                    content: "Here is our King of the App Creation 🇿🇦📲, DJ Beelze Lk. He created this amazing platform and plans to launch StreamX Chat soon!",
+                    category: "Science",
+                    image_url: "https://i.postimg.cc/4N4PxZt9/IMG-20260123-200551.jpg",
+                    author: "StreamX Team",
+                    user_id: "default",
+                    views: 142000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-20T12:00:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_4',
+                    title: "Quality materials for your house",
+                    summary: "This is most of the best place to buy Quality materials",
+                    content: "This is most of the best place to buy Quality materials for your house - Sekororo Buildit. Contact them for all your building needs!",
+                    category: "Business",
+                    image_url: "https://i.postimg.cc/vBrRbMnt/1769090056462.jpg",
+                    author: "Sekororo Buildit",
+                    user_id: "default",
+                    views: 45000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-15T11:30:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_5',
+                    title: "Vaal School minibus driver was not given any bail",
+                    summary: "Community Campaigns to reject bail",
+                    content: "The guy who killed learners with a school mini bus, in court and it was informed that he will never get any bail at all. Community stands united against this tragedy.",
+                    category: "Breaking News",
+                    image_url: "https://i.postimg.cc/hGHJN88b/1769078042687.jpg",
+                    author: "Daily News",
+                    user_id: "default",
+                    views: 178000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-18T08:20:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_6',
+                    title: "Our Newly Trending Traditional healer",
+                    summary: "For the Most better Healing and Traditional Protection",
+                    content: "For the Most better Healing and Traditional Protection from negative spirits and bad energy for luck and life also for Jobs call Kgadi ya Batubatse 081 809 6159",
+                    category: "Breaking News",
+                    image_url: "https://i.postimg.cc/NfgxNYfN/In-Shot-20260112-150402062(4).jpg",
+                    author: "Dr Doris Kgadi ya Batubatse",
+                    user_id: "default",
+                    views: 92000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-10T13:45:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_7',
+                    title: "Best Advertisement of the Year 🤣🔞",
+                    summary: "Carling Black Label Launched in 1962",
+                    content: "Carling Black Label Launched in 1962 by South African Breweries. This creative advertisement is taking social media by storm! 🍺",
+                    category: "Breaking News",
+                    image_url: "https://i.postimg.cc/CxMnTL3p/1769280316800.jpg",
+                    author: "CreativeNtloge Fans",
+                    user_id: "default",
+                    views: 110000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-22T15:30:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_8',
+                    title: "The Result of being Bad Driver 🇿🇦",
+                    summary: "This man deserves bad punishment",
+                    content: "This man did what he thought hes good with then let's his actions eats him up. A reminder to always drive responsibly.",
+                    category: "Breaking News",
+                    image_url: "https://i.postimg.cc/PxV2ZR1D/1769280364577.jpg",
+                    author: "StreamXNews",
+                    user_id: "default",
+                    views: 165000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-19T17:00:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_9',
+                    title: "Do not be a stupid listen here 🇿🇦",
+                    summary: "A man who invested in a girl will loose a girl",
+                    content: "A man who invested in a girl will loose a girl to a man who invested in himself. Wise words from the Stingy Man Association!",
+                    category: "Fun",
+                    image_url: "https://i.postimg.cc/WbQjn80X/1769283153829.jpg",
+                    author: "Stingy man association",
+                    user_id: "default",
+                    views: 74000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-12T19:20:00.000Z",
+                    isDefault: true
+                },
+                {
+                    id: 'default_10',
+                    title: "Taxi Drivers and Owners 😁🇿🇦🚩",
+                    summary: "Taxi drivers and Taxi bosses are now working like traffic officers",
+                    content: "Taxi drivers and Taxi bosses are now working like traffic officers. They're enforcing their own rules on the road! 🚕",
+                    category: "Fun",
+                    image_url: "https://i.postimg.cc/G3fRdy9Z/1769494212101.jpg",
+                    author: "Daily News",
+                    user_id: "default",
+                    views: 198000,
+                    likes: 0,
+                    liked_by: [],
+                    created_date: "2026-01-27T10:15:00.000Z",
+                    isDefault: true
+                }
+            ];
+
+            function shuffleArray(array) {
+                const newArray = [...array];
+                for (let i = newArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+                }
+                return newArray;
+            }
+
+            let displayedDefaultArticles = shuffleArray(defaultArticles);
+
+            const gradients = [
+                { from: '#00d4ff', to: '#9b59b6' },
+                { from: '#ff6b6b', to: '#feca57' },
+                { from: '#00b894', to: '#0984e3' },
+                { from: '#fd79a8', to: '#a29bfe' },
+                { from: '#fdcb6e', to: '#e17055' },
+                { from: '#74b9ff', to: '#fd79a8' },
+                { from: '#55efc4', to: '#81ecec' },
+                { from: '#ff7675', to: '#d63031' },
+                { from: '#a29bfe', to: '#6c5ce7' },
+                { from: '#ffeaa7', to: '#fdcb6e' },
+                { from: '#fab1a0', to: '#ff7675' },
+                { from: '#00b894', to: '#00cec9' },
+                { from: '#0984e3', to: '#74b9ff' },
+                { from: '#e17055', to: '#d63031' },
+                { from: '#6c5ce7', to: '#a29bfe' },
+            ];
+
+            // Firebase Auth State Observer
+            onAuthStateChanged(window.auth, (user) => {
+                firebaseUser = user;
+                if (user) {
+                    loadUserData(user.uid);
+                }
+            });
+
+            async function loadUserData(uid) {
+                const userDoc = await getDoc(doc(window.db, 'users', uid));
+                if (userDoc.exists()) {
+                    const userData = { id: uid, ...userDoc.data() };
+                    
+                    const existingIndex = savedAccounts.findIndex(a => a.id === uid);
+                    if (existingIndex >= 0) {
+                        savedAccounts[existingIndex] = { ...userData, isActive: true };
+                    } else {
+                        savedAccounts.forEach(a => a.isActive = false);
+                        savedAccounts.push({ ...userData, isActive: true });
+                    }
+                    
+                    currentUser = userData;
+                    localStorage.setItem('streamxAccounts', JSON.stringify(savedAccounts));
+                    updateAuthButton();
+                }
+            }
+
+            async function signInWithGoogle() {
+                try {
+                    const result = await signInWithPopup(window.auth, window.googleProvider);
+                    const user = result.user;
+                    
+                    const userRef = doc(window.db, 'users', user.uid);
+                    const userDoc = await getDoc(userRef);
+                    
+                    if (!userDoc.exists()) {
+                        await addDoc(collection(window.db, 'users'), {
+                            userId: user.uid,
+                            name: user.displayName || 'User',
+                            email: user.email,
+                            profile_picture: user.photoURL || null,
+                            bio: '',
+                            website_url: '',
+                            whatsapp: '',
+                            facebook: '',
+                            instagram: '',
+                            contact_email: '',
+                            created_date: new Date().toISOString()
+                        });
+                    }
+                    
+                    closeAuthModal();
+                    showToast('Signed in with Google!', 'success');
+                } catch (error) {
+                    showToast('Error: ' + error.message, 'error');
+                }
+            }
+
+            function showForgotPassword() {
+                document.getElementById('loginView').style.display = 'none';
+                document.getElementById('registerView').style.display = 'none';
+                document.getElementById('forgotPasswordView').style.display = 'block';
+                lucide.createIcons();
+            }
+
+            document.getElementById('forgotPasswordForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('forgotEmail').value;
+                
+                try {
+                    await sendPasswordResetEmail(window.auth, email);
+                    showToast('Password reset email sent! Check your inbox.', 'success');
+                    showLoginView();
+                } catch (error) {
+                    showToast('Error: ' + error.message, 'error');
+                }
+            });
+
+            function makeLinksClickable(text) {
+                if (!text) return '';
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                return text.replace(urlRegex, '<a href__="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+            }
+
+            function handleAuthButtonClick() {
+                if (savedAccounts.length > 1) {
+                    openAccountSwitcher();
+                } else if (currentUser) {
+                    viewUserProfile(currentUser.id);
+                } else {
+                    openAuthModal();
+                }
+            }
+
+            function openAccountSwitcher() {
+                renderAccountList();
+                document.getElementById('accountSwitcher').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeAccountSwitcher() {
+                document.getElementById('accountSwitcher').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function renderAccountList() {
+                const accountListEl = document.getElementById('accountList');
+                
+                let html = savedAccounts.map(account => {
+                    const isActive = account.id === currentUser?.id;
+                    const avatarHTML = account.profile_picture 
+                        ? `<img src="${account.profile_picture}" alt="${account.name}">` 
+                        : account.name[0];
+
+                    return `
+                        <div class="account-item ${isActive ? 'active-account' : ''}" onclick="switchAccount('${account.id}')">
+                            ${isActive ? '<div class="account-badge"><i data-lucide="check" style="width: 12px; height: 12px;"></i> Active</div>' : ''}
+                            <div class="account-avatar">${avatarHTML}</div>
+                            <div class="account-info">
+                                <div class="account-name">${account.name}</div>
+                                <div class="account-email">${account.email}</div>
+                            </div>
+                            <button class="account-remove" onclick="event.stopPropagation(); removeAccount('${account.id}')">
+                                <i data-lucide="trash-2"></i>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+
+                html += `
+                    <button class="add-account-btn" onclick="addNewAccount()">
+                        <i data-lucide="user-plus"></i>
+                        <span>Add Another Account</span>
+                    </button>
+                `;
+
+                accountListEl.innerHTML = html;
+                lucide.createIcons();
+            }
+
+            function switchAccount(accountId) {
+                const account = savedAccounts.find(a => a.id === accountId);
+                if (!account) return;
+
+                savedAccounts.forEach(a => a.isActive = false);
+                account.isActive = true;
+                currentUser = account;
+                
+                localStorage.setItem('streamxAccounts', JSON.stringify(savedAccounts));
+                
+                updateAuthButton();
+                closeAccountSwitcher();
+                showToast(`Switched to ${account.name}`, 'success');
+            }
+
+            function removeAccount(accountId) {
+                if (!confirm('Remove this account?')) return;
+
+                const index = savedAccounts.findIndex(a => a.id === accountId);
+                if (index === -1) return;
+
+                const wasActive = savedAccounts[index].id === currentUser?.id;
+                savedAccounts.splice(index, 1);
+                
+                if (wasActive) {
+                    currentUser = savedAccounts.length > 0 ? savedAccounts[0] : null;
+                    if (currentUser) currentUser.isActive = true;
+                }
+
+                localStorage.setItem('streamxAccounts', JSON.stringify(savedAccounts));
+                updateAuthButton();
+                
+                if (savedAccounts.length <= 1) {
+                    closeAccountSwitcher();
+                } else {
+                    renderAccountList();
+                }
+
+                showToast('Account removed', 'info');
+            }
+
+            function addNewAccount() {
+                closeAccountSwitcher();
+                openAuthModal();
+            }
+
+            function openAuthModal() {
+                document.getElementById('authModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                lucide.createIcons();
+            }
+
+            function closeAuthModal() {
+                document.getElementById('authModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function showLoginView() {
+                document.getElementById('loginView').style.display = 'block';
+                document.getElementById('registerView').style.display = 'none';
+                document.getElementById('forgotPasswordView').style.display = 'none';
+                lucide.createIcons();
+            }
+
+            function showRegisterView() {
+                document.getElementById('loginView').style.display = 'none';
+                document.getElementById('registerView').style.display = 'block';
+                document.getElementById('forgotPasswordView').style.display = 'none';
+                lucide.createIcons();
+            }
+
+            function updateAuthButton() {
+                const authBtn = document.getElementById('authBtn');
+                if (currentUser) {
+                    if (currentUser.profile_picture) {
+                        authBtn.innerHTML = `<img src="${currentUser.profile_picture}" alt="${currentUser.name}">`;
+                        if (deletedArticlesCount > 0) {
+                            authBtn.innerHTML += `<span id="notificationBadge" class="notification-badge">${deletedArticlesCount}</span>`;
+                        }
+                    } else {
+                        authBtn.innerHTML = `<div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white;">${currentUser.name[0]}</div>`;
+                        if (deletedArticlesCount > 0) {
+                            authBtn.innerHTML += `<span id="notificationBadge" class="notification-badge">${deletedArticlesCount}</span>`;
+                        }
+                    }
+                    authBtn.title = currentUser.name;
+                } else {
+                    authBtn.innerHTML = `<i data-lucide="log-in"></i>`;
+                    authBtn.title = "Login";
+                }
+                lucide.createIcons();
+            }
+
+            async function logout() {
+                if (savedAccounts.length > 1) {
+                    if (confirm('Remove this account from this device?')) {
+                        removeAccount(currentUser.id);
+                    }
+                } else {
+                    await signOut(window.auth);
+                    currentUser = null;
+                    firebaseUser = null;
+                    savedAccounts = [];
+                    localStorage.setItem('streamxAccounts', JSON.stringify(savedAccounts));
+                    updateAuthButton();
+                    showToast('Logged out successfully!', 'success');
+                }
+                closeProfileModal();
+            }
+
+            async function viewUserProfile(userId) {
+                const isDefaultUser = userId === 'default';
+                
+                if (isDefaultUser) {
+                    const defaultUser = {
+                        name: 'StreamX News',
+                        email: 'team@streamxnews.com',
+                        bio: 'Official StreamX News account bringing you the latest updates.',
+                        profile_picture: null
+                    };
+                    
+                    displayProfileData(defaultUser, userId, true);
+                } else {
+                    const usersSnapshot = await getDocs(collection(window.db, 'users'));
+                    let userData = null;
+                    usersSnapshot.forEach(doc => {
+                        if (doc.id === userId || doc.data().userId === userId) {
+                            userData = { id: doc.id, ...doc.data() };
+                        }
+                    });
+                    if (userData) {
+                        displayProfileData(userData, userId, false);
+                    }
+                }
+            }
+
+            function closeProfileModal() {
+                document.getElementById('profileModal').classList.remove('active');
+                document.body.style.overflow = '';
+                deletedArticlesCount = 0;
+                updateAuthButton();
+            }
+
+            function showEditProfile() {
+                const editAvatar = document.getElementById('editProfileAvatar');
+                const editInitial = document.getElementById('editProfileInitial');
+                
+                if (currentUser.profile_picture) {
+                    editAvatar.innerHTML = `<img src="${currentUser.profile_picture}" alt="${currentUser.name}">
+                        <div class="profile-picture-upload" onclick="document.getElementById('profilePictureInput').click()">
+                            <i data-lucide="camera"></i>
+                        </div>`;
+                } else {
+                    editInitial.textContent = currentUser.name[0];
+                    editAvatar.innerHTML = '';
+                    editAvatar.appendChild(editInitial);
+                    editAvatar.innerHTML += `<div class="profile-picture-upload" onclick="document.getElementById('profilePictureInput').click()">
+                            <i data-lucide="camera"></i>
+                        </div>`;
+                }
+                
+                document.getElementById('editName').value = currentUser.name;
+                document.getElementById('editBio').value = currentUser.bio || '';
+                document.getElementById('editWebsite').value = currentUser.website_url || '';
+                document.getElementById('editWhatsapp').value = currentUser.whatsapp || '';
+                document.getElementById('editFacebook').value = currentUser.facebook || '';
+                document.getElementById('editInstagram').value = currentUser.instagram || '';
+                document.getElementById('editContactEmail').value = currentUser.contact_email || '';
+                
+                document.getElementById('viewProfile').style.display = 'none';
+                document.getElementById('editProfile').style.display = 'block';
+                lucide.createIcons();
+            }
+
+            function cancelEditProfile() {
+                document.getElementById('viewProfile').style.display = 'block';
+                document.getElementById('editProfile').style.display = 'none';
+                currentProfilePicture = null;
+            }
+
+            document.getElementById('profilePictureInput').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('Image size must be less than 5MB', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    currentProfilePicture = event.target.result;
+                    const editAvatar = document.getElementById('editProfileAvatar');
+                    editAvatar.innerHTML = `<img src="${currentProfilePicture}" alt="Profile">
+                        <div class="profile-picture-upload" onclick="document.getElementById('profilePictureInput').click()">
+                            <i data-lucide="camera"></i>
+                        </div>`;
+                    lucide.createIcons();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            function displayProfileData(userData, userId, isDefault) {
+                const profileAvatar = document.getElementById('profileAvatarLarge');
+                const profileInitial = document.getElementById('profileInitial');
+                
+                if (userData.profile_picture) {
+                    profileAvatar.innerHTML = `<img src="${userData.profile_picture}" alt="${userData.name}">`;
+                } else {
+                    profileInitial.textContent = userData.name[0];
+                    profileAvatar.innerHTML = '';
+                    profileAvatar.appendChild(profileInitial);
+                }
+                
+                document.getElementById('profileName').textContent = userData.name;
+                document.getElementById('profileEmail').textContent = userData.email;
+                document.getElementById('profileBio').textContent = userData.bio || 'No bio yet';
+
+                const socialLinksContainer = document.getElementById('profileSocialLinks');
+                let socialLinksHTML = '';
+                
+                if (userData.website_url) {
+                    socialLinksHTML += `
+                        <div class="social-link-item">
+                            <i data-lucide="globe"></i>
+                            <a href__="${userData.website_url}" target="_blank">${userData.website_url}</a>
+                        </div>`;
+                }
+                if (userData.whatsapp) {
+                    socialLinksHTML += `
+                        <div class="social-link-item">
+                            <i data-lucide="phone"></i>
+                            <a href__="https://wa.me/${userData.whatsapp.replace(/[^0-9]/g, '')}" target="_blank">${userData.whatsapp}</a>
+                        </div>`;
+                }
+                if (userData.facebook) {
+                    socialLinksHTML += `
+                        <div class="social-link-item">
+                            <i data-lucide="facebook"></i>
+                            <a href__="https://facebook.com/${userData.facebook}" target="_blank">@${userData.facebook}</a>
+                        </div>`;
+                }
+                if (userData.instagram) {
+                    socialLinksHTML += `
+                        <div class="social-link-item">
+                            <i data-lucide="instagram"></i>
+                            <a href__="https://instagram.com/${userData.instagram.replace('@', '')}" target="_blank">${userData.instagram}</a>
+                        </div>`;
+                }
+                if (userData.contact_email) {
+                    socialLinksHTML += `
+                        <div class="social-link-item">
+                            <i data-lucide="mail"></i>
+                            <a href__="mailto:${userData.contact_email}">${userData.contact_email}</a>
+                        </div>`;
+                }
+                
+                socialLinksContainer.innerHTML = socialLinksHTML;
+
+                const userArticles = [...allArticles.filter(a => a.user_id === userId), ...displayedDefaultArticles.filter(a => isDefault)];
+                const totalLikes = userArticles.reduce((sum, a) => sum + (a.likes || 0), 0);
+                const totalViews = userArticles.reduce((sum, a) => sum + (a.views || 0), 0);
+
+                document.getElementById('profilePosts').textContent = userArticles.length;
+                document.getElementById('profileTotalLikes').textContent = formatNumber(totalLikes);
+                document.getElementById('profileTotalViews').textContent = formatNumber(totalViews);
+
+                const userArticlesContainer = document.getElementById('userArticles');
+                if (userArticles.length > 0) {
+                    userArticlesContainer.innerHTML = `
+                        <h3 style="font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">
+                            <i data-lucide="file-text" style="width: 18px; height: 18px; display: inline; vertical-align: middle;"></i>
+                            Posts (${userArticles.length})
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            ${userArticles.slice(0, 5).map(article => `
+                                <div style="padding: 0.75rem; background: var(--bg-secondary); border-radius: 0.5rem; cursor: pointer; transition: all 0.2s;" onclick="closeProfileModal(); showArticle('${article.id}');">
+                                    <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">${article.title}</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                                        <span class="category-badge ${getCategoryClass(article.category)}" style="font-size: 0.625rem; padding: 0.125rem 0.5rem;">${article.category}</span>
+                                        <span style="margin-left: 0.5rem;">
+                                            <i data-lucide="eye" style="width: 12px; height: 12px; display: inline; vertical-align: middle;"></i>
+                                            ${formatNumber(article.views || 0)}
+                                        </span>
+                                        <span style="margin-left: 0.5rem;">
+                                            <i data-lucide="heart" style="width: 12px; height: 12px; display: inline; vertical-align: middle;"></i>
+                                            ${formatNumber(article.likes || 0)}
+                                        </span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    userArticlesContainer.innerHTML = '<p style="color: var(--text-secondary); font-size: 0.875rem;">No posts yet</p>';
+                }
+
+                const isOwnProfile = userId === currentUser?.id;
+                document.getElementById('editProfileBtn').style.display = isOwnProfile && !isDefault ? 'block' : 'none';
+                document.getElementById('logoutBtn').style.display = isOwnProfile && !isDefault ? 'block' : 'none';
+
+                document.getElementById('profileModal').classList.add('active');
+                document.getElementById('viewProfile').style.display = 'block';
+                document.getElementById('editProfile').style.display = 'none';
+                document.body.style.overflow = 'hidden';
+                lucide.createIcons();
+            }
+
+            async function incrementViews(articleId) {
+                if (viewedArticles.includes(articleId)) return;
+                
+                viewedArticles.push(articleId);
+                localStorage.setItem('streamxViewedArticles', JSON.stringify(viewedArticles));
+
+                const article = displayedDefaultArticles.find(a => a.id === articleId);
+                if (article && article.isDefault) {
+                    article.views = (article.views || 0) + 1;
+                    renderArticles();
+                    return;
+                }
+
+                const articleRef = doc(window.db, 'articles', articleId);
+                const articleDoc = await getDoc(articleRef);
+                if (articleDoc.exists()) {
+                    const currentViews = articleDoc.data().views || 0;
+                    await updateDoc(articleRef, { views: currentViews + 1 });
+                }
+            }
+
+            async function toggleLike(articleId) {
+                if (!currentUser) {
+                    showToast('Please login to like posts!', 'error');
+                    openAuthModal();
+                    return;
+                }
+
+                const article = displayedDefaultArticles.find(a => a.id === articleId);
+                const isLiked = likedArticles[articleId] === true;
+
+                if (article && article.isDefault) {
+                    if (isLiked) {
+                        delete likedArticles[articleId];
+                        article.likes = Math.max(0, (article.likes || 0) - 1);
+                        article.liked_by = (article.liked_by || []).filter(uid => uid !== currentUser.id);
+                    } else {
+                        likedArticles[articleId] = true;
+                        article.likes = (article.likes || 0) + 1;
+                        if (!article.liked_by) article.liked_by = [];
+                        article.liked_by.push(currentUser.id);
+                    }
+                    localStorage.setItem('streamxLikedArticles', JSON.stringify(likedArticles));
+                    renderArticles();
+                    return;
+                }
+
+                const articleRef = doc(window.db, 'articles', articleId);
+                const articleDoc = await getDoc(articleRef);
+                if (!articleDoc.exists()) return;
+                
+                const articleData = articleDoc.data();
+                const currentLikes = articleData.likes || 0;
+                const likedBy = articleData.liked_by || [];
+
+                if (isLiked) {
+                    delete likedArticles[articleId];
+                    const updatedLikedBy = likedBy.filter(uid => uid !== currentUser.id);
+                    await updateDoc(articleRef, { 
+                        likes: Math.max(0, currentLikes - 1),
+                        liked_by: updatedLikedBy
+                    });
+                } else {
+                    likedArticles[articleId] = true;
+                    likedBy.push(currentUser.id);
+                    await updateDoc(articleRef, { 
+                        likes: currentLikes + 1,
+                        liked_by: likedBy
+                    });
+                }
+
+                localStorage.setItem('streamxLikedArticles', JSON.stringify(likedArticles));
+            }
+
+            function formatNumber(num) {
+                if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+                return num.toString();
+            }
+
+            function generateRandomViews() {
+                return Math.floor(Math.random() * (224211 - 5000 + 1)) + 5000;
+            }
+
+            function updateGradient() {
+                const randomIndex = Math.floor(Math.random() * gradients.length);
+                const gradient = gradients[randomIndex];
+                
+                document.documentElement.style.setProperty('--gradient-1-from', gradient.from);
+                document.documentElement.style.setProperty('--gradient-1-to', gradient.to);
+                
+                document.querySelectorAll('.logo-gradient, #heroGradient').forEach(el => {
+                    el.style.background = `linear-gradient(135deg, ${gradient.from} 0%, ${gradient.to} 100%)`;
+                    el.style.webkitBackgroundClip = 'text';
+                    el.style.webkitTextFillColor = 'transparent';
+                    el.style.backgroundClip = 'text';
+                });
+
+                document.querySelectorAll('.icon-btn').forEach(btn => {
+                    if (!btn.querySelector('img') && !btn.querySelector('div[style*="background"]')) {
+                        btn.style.background = `linear-gradient(135deg, ${gradient.from} 0%, ${gradient.to} 100%)`;
+                    }
+                });
+            }
+
+            function showToast(message, type = 'success') {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.className = `toast show ${type}`;
+                setTimeout(() => {
+                    toast.className = 'toast';
+                }, 3500);
+            }
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+
+            function getCategoryClass(category) {
+                const classes = {
+                    'Tech': 'badge-tech',
+                    'Gaming': 'badge-gaming',
+                    'Entertainment': 'badge-entertainment',
+                    'Sports': 'badge-sports',
+                    'Business': 'badge-business',
+                    'Science': 'badge-science',
+                    'Breaking News': 'badge-breaking',
+                    'Fun': 'badge-fun'
+                };
+                return classes[category] || 'badge-tech';
+            }
+
+            function getArticleImages(article) {
+                if (article.images && Array.isArray(article.images) && article.images.length > 0) {
+                    return article.images;
+                } else if (article.image_url) {
+                    return [article.image_url];
+                }
+                return ['https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80'];
+            }
+
+            function openLightbox(images, index) {
+                lightboxImages = images;
+                currentLightboxIndex = index;
+                updateLightboxImage();
+                document.getElementById('lightbox').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                document.getElementById('lightbox').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function navigateLightbox(direction) {
+                currentLightboxIndex = (currentLightboxIndex + direction + lightboxImages.length) % lightboxImages.length;
+                updateLightboxImage();
+            }
+
+            function updateLightboxImage() {
+                document.getElementById('lightboxImage').src = lightboxImages[currentLightboxIndex];
+                document.getElementById('lightboxCounter').textContent = 
+                    `${currentLightboxIndex + 1} / ${lightboxImages.length}`;
+                lucide.createIcons();
+            }
+
+            function renderImageGallery(images) {
+                if (!images || images.length <= 1) return '';
+                
+                return `
+                    <div class="image-gallery">
+                        ${images.map((img, index) => `
+                            <div class="gallery-image" onclick='openLightbox(${JSON.stringify(images)}, ${index})'>
+                                <img src="${img}" alt="Image ${index + 1}">
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            function renderFeaturedArticle(article) {
+                if (!article) return '';
+                
+                const images = getArticleImages(article);
+                const mainImage = images[0];
+                const isLiked = likedArticles[article.id] === true;
+                const avatarHTML = article.profile_picture 
+                    ? `<img src="${article.profile_picture}" alt="${article.author}">` 
+                    : article.author ? article.author[0] : 'S';
+                
+                return `
+                    <div class="section-header" style="margin-top: 0;">
+                        <span>Featured Story</span>
+                        <span class="section-line"></span>
+                    </div>
+                    <div class="featured-article">
+                        <div class="featured-card" onclick="showArticle('${article.id}')">
+                            <div class="post-header">
+                                <div class="post-avatar" onclick="event.stopPropagation(); viewUserProfile('${article.user_id}')" style="cursor: pointer;">
+                                    ${avatarHTML}
+                                </div>
+                                <div class="post-author-info">
+                                    <div class="post-author" onclick="event.stopPropagation(); viewUserProfile('${article.user_id}')" style="cursor: pointer;">${article.author || 'StreamX News'}</div>
+                                    <div class="article-date">
+                                        <i data-lucide="calendar"></i>
+                                        ${formatDate(article.created_date)}
+                                    </div>
+                                </div>
+                                <div class="category-badge ${getCategoryClass(article.category)}">
+                                    ${article.category}
+                                </div>
+                            </div>
+                            <div class="post-content-text">
+                                <h2 class="featured-title">${article.title}</h2>
+                                <p class="featured-summary clickable-content">${makeLinksClickable(article.summary)}</p>
+                            </div>
+                            <div class="featured-image">
+                                <img src="${mainImage}" alt="${article.title}">
+                            </div>
+                            <div class="article-stats">
+                                <div class="stat-item">
+                                    <i data-lucide="eye"></i>
+                                    <span>${formatNumber(article.views || 0)}</span>
+                                </div>
+                                <div class="stat-item like-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${article.id}')">
+                                    <i data-lucide="heart"></i>
+                                    <span>${formatNumber(article.likes || 0)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function renderArticleCard(article, index) {
+                const images = getArticleImages(article);
+                const mainImage = images[0];
+                const isLiked = likedArticles[article.id] === true;
+                const avatarHTML = article.profile_picture 
+                    ? `<img src="${article.profile_picture}" alt="${article.author}">` 
+                    : article.author ? article.author[0] : 'S';
+                    
+                return `
+                    <div class="article-card" onclick="showArticle('${article.id}')" style="animation-delay: ${index * 0.05}s">
+                        <div class="post-header">
+                            <div class="post-avatar" onclick="event.stopPropagation(); viewUserProfile('${article.user_id}')" style="cursor: pointer;">
+                                ${avatarHTML}
+                            </div>
+                            <div class="post-author-info">
+                                <div class="post-author" onclick="event.stopPropagation(); viewUserProfile('${article.user_id}')" style="cursor: pointer;">${article.author || 'StreamX News'}</div>
+                                <div class="article-date">
+                                    <i data-lucide="calendar"></i>
+                                    ${formatDate(article.created_date)}
+                                </div>
+                            </div>
+                            <div class="category-badge ${getCategoryClass(article.category)}">
+                                ${article.category}
+                            </div>
+                        </div>
+                        <div class="article-content">
+                            <h3 class="article-title">${article.title}</h3>
+                            <p class="article-summary clickable-content">${makeLinksClickable(article.summary)}</p>
+                        </div>
+                        <div class="article-image">
+                            <img src="${mainImage}" alt="${article.title}">
+                        </div>
+                        <div class="article-stats">
+                            <div class="stat-item">
+                                <i data-lucide="eye"></i>
+                                <span>${formatNumber(article.views || 0)}</span>
+                            </div>
+                            <div class="stat-item like-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${article.id}')">
+                                <i data-lucide="heart"></i>
+                                <span>${formatNumber(article.likes || 0)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function renderArticles() {
+                const combinedArticles = [...displayedDefaultArticles, ...allArticles];
+                
+                let filtered = combinedArticles.filter(article => {
+                    const matchesCategory = currentCategory === 'All' || article.category === currentCategory;
+                    const matchesSearch = !searchQuery || 
+                        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        article.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        (article.content && article.content.toLowerCase().includes(searchQuery.toLowerCase()));
+                    return matchesCategory && matchesSearch;
+                });
+
+                filtered.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+
+                const featuredArticle = filtered.find(a => a.featured);
+                const regularArticles = filtered.filter(a => !a.featured);
+
+                let html = '';
+
+                if (featuredArticle && currentCategory === 'All' && !searchQuery) {
+                    html += renderFeaturedArticle(featuredArticle);
+                }
+
+                if (regularArticles.length > 0) {
+                    html += `
+                        <div class="section-header" style="margin-top: ${featuredArticle && currentCategory === 'All' && !searchQuery ? '3rem' : '0'};">
+                            <span>${searchQuery ? 'Search Results' : currentCategory === 'All' ? 'Latest News' : currentCategory}</span>
+                            <span>(${regularArticles.length})</span>
+                            <span class="section-line"></span>
+                        </div>
+                        <div class="articles-grid">
+                            ${regularArticles.map((article, index) => renderArticleCard(article, index)).join('')}
+                        </div>
+                    `;
+                } else if (!featuredArticle) {
+                    html += `
+                        <div class="empty-state">
+                            <p class="empty-title">No articles found</p>
+                            <p class="empty-description">Try adjusting your search or category filter</p>
+                        </div>
+                    `;
+                }
+
+                document.getElementById('allArticlesContainer').innerHTML = html;
+                lucide.createIcons();
+            }
+
+            function showArticle(articleId) {
+                let article = displayedDefaultArticles.find(a => a.id === articleId);
+                if (!article) {
+                    article = allArticles.find(a => a.id === articleId);
+                }
+                if (!article) return;
+
+                incrementViews(articleId);
+
+                const homePage = document.getElementById('homePage');
+                const articlePage = document.getElementById('articlePage');
+
+                homePage.style.display = 'none';
+                articlePage.style.display = 'block';
+
+                const combinedArticles = [...displayedDefaultArticles, ...allArticles];
+                const related = combinedArticles
+                    .filter(a => a.category === article.category && a.id !== article.id)
+                    .slice(0, 3);
+
+                const images = getArticleImages(article);
+                const mainImage = images[0];
+                const isLiked = likedArticles[article.id] === true;
+                const avatarHTML = article.profile_picture 
+                    ? `<img src="${article.profile_picture}" alt="${article.author}">` 
+                    : article.author ? article.author[0] : 'S';
+
+                articlePage.innerHTML = `
+                    <button class="back-btn" onclick="showHome()">
+                        <i data-lucide="arrow-left"></i>
+                        <span>Back to News</span>
+                    </button>
+
+                    <article style="background: var(--bg-card); border-radius: 0.75rem; border: 1px solid var(--border-color); overflow: hidden; box-shadow: var(--shadow-md);">
+                        <div class="post-header">
+                            <div class="post-avatar" onclick="viewUserProfile('${article.user_id}')" style="cursor: pointer;">
+                                ${avatarHTML}
+                            </div>
+                            <div class="post-author-info">
+                                <div class="post-author" onclick="viewUserProfile('${article.user_id}')" style="cursor: pointer;">${article.author || 'StreamX News'}</div>
+                                <div class="article-date">
+                                    <i data-lucide="calendar"></i>
+                                    ${formatDate(article.created_date)}
+                                </div>
+                            </div>
+                            <div class="category-badge ${getCategoryClass(article.category)}">
+                                ${article.category}
+                            </div>
+                        </div>
+
+                        <div style="padding: 2rem 1.5rem;">
+                            <h1>${article.title}</h1>
+                            <p style="font-size: 1.1875rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem;" class="clickable-content">${makeLinksClickable(article.summary)}</p>
+                            
+                            <div class="article-stats" style="justify-content: flex-start; gap: 2rem; border-top: none; padding: 0 0 1rem 0;">
+                                <div class="stat-item" style="font-size: 1.1rem;">
+                                    <i data-lucide="eye"></i>
+                                    <span>${formatNumber(article.views || 0)} views</span>
+                                </div>
+                                <div class="stat-item like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${article.id}')" style="font-size: 1.1rem; cursor: pointer;">
+                                    <i data-lucide="heart"></i>
+                                    <span>${formatNumber(article.likes || 0)} likes</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <img src="${mainImage}" alt="${article.title}" onclick='openLightbox(${JSON.stringify(images)}, 0)' style="width: 100%; height: auto; cursor: pointer; display: block;">
+                        
+                        ${renderImageGallery(images)}
+
+                        <div style="padding: 2rem 1.5rem;" class="clickable-content">
+                            ${formatMarkdown(makeLinksClickable(article.content || article.summary))}
+                        </div>
+                    </article>
+
+                    ${related.length > 0 ? `
+                        <div style="margin-top: 3rem;">
+                            <div class="section-header">
+                                <span>Related Stories</span>
+                                <span class="section-line"></span>
+                            </div>
+                            <div class="articles-grid">
+                                ${related.map((r, i) => renderArticleCard(r, i)).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                `;
+
+                lucide.createIcons();
+                window.scrollTo(0, 0);
+            }
+
+            function showHome() {
+                document.getElementById('homePage').style.display = 'block';
+                document.getElementById('articlePage').style.display = 'none';
+                window.scrollTo(0, 0);
+            }
+
+            function formatMarkdown(text) {
+                if (!text) return '';
+                
+                let html = text
+                    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+                    .replace(/\n\n/gim, '</p><p>')
+                    .replace(/^\- (.+)$/gim, '<li>$1</li>')
+                    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+                
+                return `<p>${html}</p>`;
+            }
+
+            function openPublicPostForm() {
+                if (!currentUser) {
+                    document.getElementById('postLoginRequired').style.display = 'block';
+                    document.getElementById('publicPostFormElement').style.display = 'none';
+                } else {
+                    document.getElementById('postLoginRequired').style.display = 'none';
+                    document.getElementById('publicPostFormElement').style.display = 'block';
+                }
+                document.getElementById('publicPostForm').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                lucide.createIcons();
+            }
+
+            function closePublicPostForm() {
+                document.getElementById('publicPostForm').classList.remove('active');
+                document.body.style.overflow = '';
+                document.getElementById('publicPostFormElement').reset();
+                publicUploadedImages = [];
+                updatePublicImagePreviews();
+            }
+
+            function handlePublicImageUpload(files) {
+                const fileArray = Array.from(files);
+                const maxFiles = 5;
+                
+                if (publicUploadedImages.length + fileArray.length > maxFiles) {
+                    showToast(`Maximum ${maxFiles} images allowed!`, 'error');
+                    return;
+                }
+
+                const uploadPromises = fileArray.map(file => uploadPublicImage(file));
+                
+                document.getElementById('publicUploadProgress').style.display = 'block';
+                document.getElementById('publicSubmitBtn').disabled = true;
+                
+                Promise.all(uploadPromises)
+                    .then(() => {
+                        document.getElementById('publicUploadProgress').style.display = 'none';
+                        document.getElementById('publicSubmitBtn').disabled = false;
+                        showToast('Images uploaded successfully!', 'success');
+                        updatePublicImagePreviews();
+                    })
+                    .catch(error => {
+                        document.getElementById('publicUploadProgress').style.display = 'none';
+                        document.getElementById('publicSubmitBtn').disabled = false;
+                        showToast('Upload failed: ' + error.message, 'error');
+                    });
+            }
+
+            function uploadPublicImage(file) {
+                return new Promise((resolve, reject) => {
+                    if (file.size > 5 * 1024 * 1024) {
+                        reject(new Error('File size exceeds 5MB'));
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    
+                    reader.onloadstart = () => {
+                        document.getElementById('publicUploadProgressBar').style.width = '0%';
+                    };
+                    
+                    reader.onprogress = (event) => {
+                        if (event.lengthComputable) {
+                            const progress = (event.loaded / event.total) * 100;
+                            document.getElementById('publicUploadProgressBar').style.width = progress + '%';
+                        }
+                    };
+                    
+                    reader.onload = (e) => {
+                        const base64String = e.target.result;
+                        publicUploadedImages.push(base64String);
+                        document.getElementById('publicUploadProgressBar').style.width = '100%';
+                        resolve(base64String);
+                    };
+                    
+                    reader.onerror = (error) => {
+                        reject(error);
+                    };
+                    
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function updatePublicImagePreviews() {
+                const container = document.getElementById('publicPreviewImages');
+                container.innerHTML = publicUploadedImages.map((url, index) => `
+                    <div class="preview-item">
+                        <img src="${url}" alt="Preview ${index + 1}">
+                        <button class="preview-remove" onclick="removePublicImage(${index}); event.stopPropagation();">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            function removePublicImage(index) {
+                publicUploadedImages.splice(index, 1);
+                updatePublicImagePreviews();
+            }
+
+            function handleImageUpload(files) {
+                const fileArray = Array.from(files);
+                const maxFiles = 5;
+                
+                if (uploadedImages.length + fileArray.length > maxFiles) {
+                    showToast(`Maximum ${maxFiles} images allowed!`, 'error');
+                    return;
+                }
+
+                const uploadPromises = fileArray.map(file => uploadImage(file));
+                
+                document.getElementById('uploadProgress').style.display = 'block';
+                document.getElementById('submitBtn').disabled = true;
+                
+                Promise.all(uploadPromises)
+                    .then(() => {
+                        document.getElementById('uploadProgress').style.display = 'none';
+                        document.getElementById('submitBtn').disabled = false;
+                        showToast('Images uploaded successfully!', 'success');
+                        updateImagePreviews();
+                    })
+                    .catch(error => {
+                        document.getElementById('uploadProgress').style.display = 'none';
+                        document.getElementById('submitBtn').disabled = false;
+                        showToast('Upload failed: ' + error.message, 'error');
+                    });
+            }
+
+            function uploadImage(file) {
+                return new Promise((resolve, reject) => {
+                    if (file.size > 5 * 1024 * 1024) {
+                        reject(new Error('File size exceeds 5MB'));
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    
+                    reader.onloadstart = () => {
+                        document.getElementById('uploadProgressBar').style.width = '0%';
+                    };
+                    
+                    reader.onprogress = (event) => {
+                        if (event.lengthComputable) {
+                            const progress = (event.loaded / event.total) * 100;
+                            document.getElementById('uploadProgressBar').style.width = progress + '%';
+                        }
+                    };
+                    
+                    reader.onload = (e) => {
+                        const base64String = e.target.result;
+                        uploadedImages.push(base64String);
+                        document.getElementById('uploadProgressBar').style.width = '100%';
+                        resolve(base64String);
+                    };
+                    
+                    reader.onerror = (error) => {
+                        reject(error);
+                    };
+                    
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function updateImagePreviews() {
+                const container = document.getElementById('previewImages');
+                container.innerHTML = uploadedImages.map((url, index) => `
+                    <div class="preview-item">
+                        <img src="${url}" alt="Preview ${index + 1}">
+                        <button class="preview-remove" onclick="removeImage(${index}); event.stopPropagation();">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            function removeImage(index) {
+                uploadedImages.splice(index, 1);
+                updateImagePreviews();
+            }
+
+            function openAdminPanel() {
+                document.getElementById('adminPanel').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeAdminPanel() {
+                document.getElementById('adminPanel').classList.remove('active');
+                document.getElementById('adminLogin').style.display = 'flex';
+                document.getElementById('adminContent').style.display = 'none';
+                document.getElementById('adminPassword').value = '';
+                document.body.style.overflow = '';
+                hideArticleForm();
+            }
+
+            function showAdminContent() {
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+                loadAdminArticles();
+            }
+
+            function showArticleForm() {
+                document.getElementById('articleForm').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function hideArticleForm() {
+                document.getElementById('articleForm').style.display = 'none';
+                document.getElementById('articleFormElement').reset();
+                editingArticleId = null;
+                uploadedImages = [];
+                updateImagePreviews();
+                document.getElementById('formTitle').textContent = 'Create New Article';
+                document.getElementById('submitBtnText').textContent = 'Publish Article';
+            }
+
+            function loadAdminArticles() {
+                const list = document.getElementById('adminArticlesList');
+                document.getElementById('adminArticleCount').textContent = allArticles.length;
+
+                if (allArticles.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <p class="empty-title">No articles yet</p>
+                            <p class="empty-description">Create your first article to get started</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                list.innerHTML = allArticles.map(article => {
+                    const images = getArticleImages(article);
+                    return `
+                    <div class="article-list-item">
+                        <div class="article-list-content">
+                            <div class="article-list-info">
+                                <div class="article-list-title">
+                                    <span>${article.title}</span>
+                                    ${article.featured ? `
+                                        <span class="category-badge" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3);">
+                                            Featured
+                                        </span>
+                                    ` : ''}
+                                </div>
+                                <p class="article-list-summary">${article.summary}</p>
+                                <div class="article-list-meta">
+                                    <div class="category-badge ${getCategoryClass(article.category)}">
+                                        ${article.category}
+                                    </div>
+                                    ${article.author ? `<span>By ${article.author}</span>` : ''}
+                                    <span>${formatDate(article.created_date)}</span>
+                                    <span>${images.length} image(s)</span>
+                                    <span><i data-lucide="eye" style="width: 14px; height: 14px;"></i> ${formatNumber(article.views || 0)}</span>
+                                    <span><i data-lucide="heart" style="width: 14px; height: 14px;"></i> ${formatNumber(article.likes || 0)}</span>
+                                </div>
+                            </div>
+                            <div class="article-list-actions">
+                                <button class="btn-icon" onclick="editArticle('${article.id}')" title="Edit">
+                                    <i data-lucide="edit"></i>
+                                </button>
+                                <button class="btn-icon" onclick="deleteArticle('${article.id}')" title="Delete" style="color: #ef4444;">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+
+                lucide.createIcons();
+            }
+
+            function editArticle(articleId) {
+                const article = allArticles.find(a => a.id === articleId);
+                if (!article) return;
+
+                editingArticleId = articleId;
+                document.getElementById('formTitle').textContent = 'Edit Article';
+                document.getElementById('submitBtnText').textContent = 'Update Article';
+                
+                document.getElementById('articleTitle').value = article.title;
+                document.getElementById('articleSummary').value = article.summary;
+                document.getElementById('articleContent').value = article.content || '';
+                document.getElementById('articleCategory').value = article.category;
+                document.getElementById('articleAuthor').value = article.author || '';
+                document.getElementById('articleFeatured').checked = article.featured || false;
+                
+                uploadedImages = getArticleImages(article);
+                updateImagePreviews();
+
+                showArticleForm();
+            }
+
+            async function deleteArticle(articleId) {
+                if (!confirm('Are you sure you want to delete this article? This action cannot be undone.')) return;
+
+                try {
+                    await deleteDoc(doc(window.db, 'articles', articleId));
+                    showToast('Article deleted successfully!', 'success');
+                } catch (error) {
+                    showToast('Error: ' + error.message, 'error');
+                }
+            }
+
+            async function deleteOldArticles() {
+                const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+                let deletedCount = 0;
+                
+                const articlesSnapshot = await getDocs(collection(window.db, 'articles'));
+                const deletePromises = [];
+                
+                articlesSnapshot.forEach(doc => {
+                    const article = doc.data();
+                    const createdDate = new Date(article.created_date).getTime();
+                    
+                    if (createdDate < sevenDaysAgo) {
+                        deletePromises.push(
+                            deleteDoc(doc.ref).then(() => {
+                                deletedCount++;
+                            })
+                        );
+                    }
+                });
+                
+                await Promise.all(deletePromises);
+                
+                if (deletedCount > 0 && currentUser) {
+                    deletedArticlesCount = deletedCount;
+                    updateAuthButton();
+                    showToast(`${deletedCount} old article(s) were automatically removed (7+ days old)`, 'info');
+                }
+            }
+
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                try {
+                    await signInWithEmailAndPassword(window.auth, email, password);
+                    closeAuthModal();
+                    showToast('Welcome back!', 'success');
+                } catch (error) {
+                    showToast('Error: ' + error.message, 'error');
+                }
+            });
+
+            document.getElementById('registerForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('regName').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(window.auth, email, password);
+                    const user = userCredential.user;
+                    
+                    await addDoc(collection(window.db, 'users'), {
+                        userId: user.uid,
+                        name,
+                        email,
+                        bio: '',
+                        profile_picture: null,
+                        website_url: '',
+                        whatsapp: '',
+                        facebook: '',
+                        instagram: '',
+                        contact_email: '',
+                        created_date: new Date().toISOString()
+                    });
+                    
+                    closeAuthModal();
+                    showToast('Account created successfully!', 'success');
+                } catch (error) {
+                    showToast('Error: ' + error.message, 'error');
+                }
+            });
+
+            document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('editName').value;
+                const bio = document.getElementById('editBio').value;
+                const website_url = document.getElementById('editWebsite').value;
+                const whatsapp = document.getElementById('editWhatsapp').value;
+                const facebook = document.getElementById('editFacebook').value;
+                const instagram = document.getElementById('editInstagram').value;
+                const contact_email = document.getElementById('editContactEmail').value;
+
+                const updateData = {
+                    name,
+                    bio,
+                    website_url,
+                    whatsapp,
+                    facebook,
+                    instagram,
+                    contact_email
+                };
+
+                if (currentProfilePicture) {
+                    updateData.profile_picture = currentProfilePicture;
+                }
+
+                try {
+                    const usersSnapshot = await getDocs(collection(window.db, 'users'));
+                    let userDocId = null;
+                    usersSnapshot.forEach(doc => {
+                        if (doc.id === currentUser.id || doc.data().userId === currentUser.id) {
+                            userDocId = doc.id;
+                        }
+                    });
+
+                    if (userDocId) {
+                        await updateDoc(doc(window.db, 'users', userDocId), updateData);
+                        
+                        Object.assign(currentUser, updateData);
+                        
+                        const accountIndex = savedAccounts.findIndex(a => a.id === currentUser.id);
+                        if (accountIndex !== -1) {
+                            Object.assign(savedAccounts[accountIndex], updateData);
+                            localStorage.setItem('streamxAccounts', JSON.stringify(savedAccounts));
+                        }
+                        
+                        updateAuthButton();
+                        showToast('Profile updated!', 'success');
+                        closeProfileModal();
+                        
+                        const articlesSnapshot = await getDocs(collection(window.db, 'articles'));
+                        const updatePromises = [];
+                        articlesSnapshot.forEach(articleDoc => {
+                            const article = articleDoc.data();
+                            if (article.user_id === currentUser.id) {
+                                updatePromises.push(
+                                    updateDoc(doc(window.db, 'articles', articleDoc.id), {
+                                        author: name,
+                                        profile_picture: currentProfilePicture || article.profile_picture
+                                    })
+                                );
+                            }
+                        });
+                        await Promise.all(updatePromises);
+                    }
+                } catch (error) {
+                    showToast('Error: ' + error.message, 'error');
+                }
+            });
+
+            document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const password = document.getElementById('adminPassword').value;
+                if (password === 'VNAXXTTM') {
+                    showAdminContent();
+                    showToast('Welcome to Admin Panel!', 'success');
+                } else {
+                    showToast('Invalid password!', 'error');
+                }
+            });
+
+            document.getElementById('newArticleBtn').addEventListener('click', showArticleForm);
+            document.getElementById('closeAdminBtn').addEventListener('click', closeAdminPanel);
+            document.getElementById('cancelFormBtn').addEventListener('click', hideArticleForm);
+
+            const uploadContainer = document.getElementById('imageUploadContainer');
+            const uploadInput = document.getElementById('imageUploadInput');
+
+            uploadContainer.addEventListener('click', () => uploadInput.click());
+            uploadInput.addEventListener('change', (e) => handleImageUpload(e.target.files));
+
+            uploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.add('dragging');
+            });
+
+            uploadContainer.addEventListener('dragleave', () => {
+                uploadContainer.classList.remove('dragging');
+            });
+
+            uploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.remove('dragging');
+                handleImageUpload(e.dataTransfer.files);
+            });
+
+            const publicUploadContainer = document.getElementById('publicImageUploadContainer');
+            const publicUploadInput = document.getElementById('publicImageUploadInput');
+
+            publicUploadContainer.addEventListener('click', () => publicUploadInput.click());
+            publicUploadInput.addEventListener('change', (e) => handlePublicImageUpload(e.target.files));
+
+            publicUploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                publicUploadContainer.classList.add('dragging');
+            });
+
+            publicUploadContainer.addEventListener('dragleave', () => {
+                publicUploadContainer.classList.remove('dragging');
+            });
+
+            publicUploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                publicUploadContainer.classList.remove('dragging');
+                handlePublicImageUpload(e.dataTransfer.files);
+            });
+
+            document.getElementById('publicPostFormElement').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                if (!currentUser) {
+                    showToast('Please login first!', 'error');
+                    return;
+                }
+
+                const articleData = {
+                    title: document.getElementById('publicTitle').value,
+                    summary: document.getElementById('publicSummary').value,
+                    content: document.getElementById('publicContent').value,
+                    category: document.getElementById('publicCategory').value,
+                    author: currentUser.name,
+                    profile_picture: currentUser.profile_picture || null,
+                    user_id: currentUser.id,
+                    images: publicUploadedImages.length > 0 ? publicUploadedImages : ['https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80'],
+                    featured: false,
+                    views: generateRandomViews(),
+                    likes: 0,
+                    liked_by: [],
+                    created_date: new Date().toISOString()
+                };
+
+                try {
+                    await addDoc(collection(window.db, 'articles'), articleData);
+                    showToast('Post published successfully!', 'success');
+                    closePublicPostForm();
+                } catch (error) {
+                    showToast('Error: ' + error.message, 'error');
+                }
+            });
+
+            document.getElementById('articleFormElement').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const articleData = {
+                    title: document.getElementById('articleTitle').value,
+                    summary: document.getElementById('articleSummary').value,
+                    content: document.getElementById('articleContent').value,
+                    category: document.getElementById('articleCategory').value,
+                    author: document.getElementById('articleAuthor').value || 'Admin',
+                    profile_picture: null,
+                    user_id: 'admin',
+                    images: uploadedImages.length > 0 ? uploadedImages : ['https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80'],
+                    featured: document.getElementById('articleFeatured').checked,
+                    views: generateRandomViews(),
+                    likes: 0,
+                    liked_by: [],
+                    created_date: new Date().toISOString()
+                };
+
+                try {
+                    if (editingArticleId) {
+                        await updateDoc(doc(window.db, 'articles', editingArticleId), articleData);
+                        showToast('Article updated successfully!', 'success');
+                    } else {
+                        await addDoc(collection(window.db, 'articles'), articleData);
+                        showToast('Article published successfully!', 'success');
+                    }
+                    hideArticleForm();
+                } catch (error) {
+                    showToast('Error: ' + error.message, 'error');
+                }
+            });
+
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderArticles();
+            });
+
+            document.getElementById('categoryFilters').addEventListener('click', (e) => {
+                const btn = e.target.closest('.category-btn');
+                if (!btn) return;
+
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                renderArticles();
+            });
+
+            document.getElementById('logoContainer').addEventListener('click', () => {
+                clickCount++;
+                
+                if (clickCount === 1) {
+                    clickTimer = setTimeout(() => {
+                        clickCount = 0;
+                    }, 500);
+                } else if (clickCount === 2) {
+                    clearTimeout(clickTimer);
+                    clickCount = 0;
+                    openAdminPanel();
+                }
+            });
+
+            document.getElementById('lightbox').addEventListener('click', (e) => {
+                if (e.target.id === 'lightbox') {
+                    closeLightbox();
+                }
+            });
+
+            document.getElementById('publicPostForm').addEventListener('click', (e) => {
+                if (e.target.id === 'publicPostForm') {
+                    closePublicPostForm();
+                }
+            });
+
+            document.getElementById('authModal').addEventListener('click', (e) => {
+                if (e.target.id === 'authModal') {
+                    closeAuthModal();
+                }
+            });
+
+            document.getElementById('accountSwitcher').addEventListener('click', (e) => {
+                if (e.target.id === 'accountSwitcher') {
+                    closeAccountSwitcher();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox.classList.contains('active')) {
+                    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                    if (e.key === 'ArrowRight') navigateLightbox(1);
+                    if (e.key === 'Escape') closeLightbox();
+                }
+
+                const publicForm = document.getElementById('publicPostForm');
+                if (publicForm.classList.contains('active') && e.key === 'Escape') {
+                    closePublicPostForm();
+                }
+
+                const authModal = document.getElementById('authModal');
+                if (authModal.classList.contains('active') && e.key === 'Escape') {
+                    closeAuthModal();
+                }
+
+                const accountSwitcher = document.getElementById('accountSwitcher');
+                if (accountSwitcher.classList.contains('active') && e.key === 'Escape') {
+                    closeAccountSwitcher();
+                }
+            });
+
+            // Make functions globally available
+            window.switchAccount = switchAccount;
+            window.removeAccount = removeAccount;
+            window.addNewAccount = addNewAccount;
+            window.closeAccountSwitcher = closeAccountSwitcher;
+            window.openAccountSwitcher = openAccountSwitcher;
+            window.handleAuthButtonClick = handleAuthButtonClick;
+            window.signInWithGoogle = signInWithGoogle;
+            window.openAuthModal = openAuthModal;
+            window.closeAuthModal = closeAuthModal;
+            window.showLoginView = showLoginView;
+            window.showRegisterView = showRegisterView;
+            window.showForgotPassword = showForgotPassword;
+            window.viewUserProfile = viewUserProfile;
+            window.closeProfileModal = closeProfileModal;
+            window.showEditProfile = showEditProfile;
+            window.cancelEditProfile = cancelEditProfile;
+            window.logout = logout;
+            window.toggleLike = toggleLike;
+            window.showArticle = showArticle;
+            window.showHome = showHome;
+            window.openPublicPostForm = openPublicPostForm;
+            window.closePublicPostForm = closePublicPostForm;
+            window.removePublicImage = removePublicImage;
+            window.removeImage = removeImage;
+            window.openAdminPanel = openAdminPanel;
+            window.closeAdminPanel = closeAdminPanel;
+            window.showArticleForm = showArticleForm;
+            window.editArticle = editArticle;
+            window.deleteArticle = deleteArticle;
+            window.openLightbox = openLightbox;
+            window.closeLightbox = closeLightbox;
+            window.navigateLightbox = navigateLightbox;
+
+            // Listen to Firestore articles collection
+            onSnapshot(collection(window.db, 'articles'), (snapshot) => {
+                allArticles = [];
+                snapshot.forEach((doc) => {
+                    allArticles.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                
+                allArticles.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+                renderArticles();
+                
+                if (document.getElementById('adminContent').style.display === 'block') {
+                    loadAdminArticles();
+                }
+            });
+
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            updateGradient();
+            updateAuthButton();
+            renderArticles();
+            lucide.createIcons();
+            
+            deleteOldArticles();
+            setInterval(deleteOldArticles, 60 * 60 * 1000);
+            
+            setInterval(updateGradient, 180000);
+            
+            setInterval(() => {
+                displayedDefaultArticles = shuffleArray(defaultArticles);
+                renderArticles();
+            }, 300000);
+
+        }, 500000); // Wait 500ms for Firebase to initialize
+    </script>
+</body>
+</html>
