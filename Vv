@@ -1,0 +1,2674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href__="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" href__="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamX News - Your Daily Dose of News</title>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-card: #ffffff;
+            --border-color: #e4e6eb;
+            --text-primary: #050505;
+            --text-secondary: #65676b;
+            --text-tertiary: #8a8d91;
+            --accent-blue: #1877f2;
+            --accent-dark-blue: #0c4a9e;
+            --accent-purple: #9b59b6;
+            --accent-pink: #ec4899;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --accent-hover: #166fe5;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --gradient-1-from: #00d4ff;
+            --gradient-1-to: #9b59b6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .logo-gradient {
+            font-size: 1.875rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.5s ease;
+        }
+
+        .logo-text {
+            font-size: 1.875rem;
+            font-weight: 300;
+            color: var(--text-primary);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.625rem;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            border-radius: 0.5rem;
+        }
+
+        .icon-btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-btn img {
+            width: 36px;
+            height: 36px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2.5rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            color: white;
+            animation: fadeInUp 0.6s ease-out;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.95;
+        }
+
+        .hero-badge svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hero-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            max-width: 36rem;
+            margin: 0 auto;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .apps-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .apps-header {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .apps-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-color) transparent;
+            padding-bottom: 0.5rem;
+        }
+
+        .apps-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .apps-container::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+
+        .apps-container::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .app-card {
+            flex-shrink: 0;
+            width: 140px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+        }
+
+        .app-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-blue);
+        }
+
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 0.75rem;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .app-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .app-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--text-tertiary);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 2rem;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            background: var(--bg-primary);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
+            scrollbar-width: none;
+        }
+
+        .category-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.125rem;
+            border-radius: 2rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary);
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .category-btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--text-tertiary);
+            transform: translateY(-1px);
+        }
+
+        .category-btn.active {
+            background: #e7f3ff;
+            color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .category-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, var(--border-color), transparent);
+        }
+
+        .featured-article {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .featured-card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .featured-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+
+        .post-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .post-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-author-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+        }
+
+        .post-time {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        .category-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid;
+            flex-shrink: 0;
+        }
+
+        .badge-tech { background: rgba(6, 182, 212, 0.1); color: #0891b2; border-color: rgba(6, 182, 212, 0.3); }
+        .badge-gaming { background: rgba(168, 85, 247, 0.1); color: #a855f7; border-color: rgba(168, 85, 247, 0.3); }
+        .badge-entertainment { background: rgba(236, 72, 153, 0.1); color: #ec4899; border-color: rgba(236, 72, 153, 0.3); }
+        .badge-sports { background: rgba(34, 197, 94, 0.1); color: #22c55e; border-color: rgba(34, 197, 94, 0.3); }
+        .badge-business { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); }
+        .badge-science { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border-color: rgba(59, 130, 246, 0.3); }
+        .badge-breaking { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
+        .badge-fun { background: rgba(250, 204, 21, 0.1); color: #eab308; border-color: rgba(250, 204, 21, 0.3); }
+
+        .post-content-text {
+            padding: 1.25rem;
+        }
+
+        .featured-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            color: var(--text-primary);
+        }
+
+        .featured-summary {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            background: #f0f2f5;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .featured-card:hover .featured-image img {
+            transform: scale(1.03);
+        }
+
+        .articles-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .article-card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: fadeInUp 0.4s ease-out;
+            animation-fill-mode: both;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .article-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+
+        .article-image {
+            width: 100%;
+            overflow: hidden;
+            background: #f0f2f5;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .article-card:hover .article-image img {
+            transform: scale(1.03);
+        }
+
+        .article-content {
+            padding: 1.25rem;
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.625rem;
+            line-height: 1.4;
+            color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-summary {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            margin-bottom: 0.875rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.6;
+        }
+
+        .article-date {
+            color: var(--accent-red);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .article-date svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .article-stats {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-dark-blue);
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .stat-item svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .like-btn {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .like-btn:hover {
+            color: var(--accent-pink);
+            transform: scale(1.05);
+        }
+
+        .like-btn.liked {
+            color: var(--accent-pink) !important;
+        }
+
+        .clickable-content {
+            word-wrap: break-word;
+        }
+
+        .clickable-content a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .clickable-content a:hover {
+            text-decoration: underline;
+        }
+
+        .image-gallery {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-color) transparent;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-secondary);
+        }
+
+        .image-gallery::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .image-gallery::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+
+        .image-gallery::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .gallery-image {
+            flex-shrink: 0;
+            width: 200px;
+            height: 150px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            scroll-snap-align: start;
+            border: 2px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .gallery-image:hover {
+            border-color: var(--accent-blue);
+            transform: scale(1.05);
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            color: #000;
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .lightbox-close:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            color: #000;
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .lightbox-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 1rem;
+        }
+
+        .lightbox-next {
+            right: 1rem;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: #000;
+            padding: 0.625rem 1.25rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .auth-modal.active {
+            display: flex;
+        }
+
+        .auth-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            max-width: 450px;
+            width: 100%;
+            padding: 2rem;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .auth-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .auth-view {
+            display: block;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-secondary);
+            border: none;
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            background: var(--border-color);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.625rem;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            font-weight: 600;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+            background: var(--bg-primary);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-1-from) 0%, var(--gradient-1-to) 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-switch a {
+            color: var(--accent-blue);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .profile-modal.active {
+            display: flex;
+        }
+
+        .profile-container {
+            background: #000;
+            color: #fff;
+            border-radius: 1rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .profile-header {
+            background: #1a1a1a;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border: 3px solid #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .profile-avatar-large:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        .profile-bio {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 0.875rem;
+        }
+
+        .profile-body {
+            padding: 1.5rem;
+        }
+
+        .profile-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #1a1a1a;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .social-link:hover {
+            background: #2a2a2a;
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            color: #fff;
+        }
+
+        .social-link a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .social-link a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .profile-post-item {
+            background: #1a1a1a;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .profile-post-item:hover {
+            background: #2a2a2a;
+        }
+
+        .profile-post-preview {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .post-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .post-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-preview-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .post-preview-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .post-preview-meta {
+            font-size: 0.75rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .account-switcher {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .account-switcher.active {
+            display: flex;
+        }
+
+        .account-panel {
+            background: #000;
+            color: #fff;
+            border-radius: 1rem;
+            max-width: 420px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .account-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .account-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .account-list {
+            padding: 1rem;
+        }
+
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background: #1a1a1a;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .account-item:hover {
+            background: #2a2a2a;
+        }
+
+        .account-item.active {
+            border: 2px solid #fff;
+        }
+
+        .account-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .account-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .account-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .account-name {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .account-email-text {
+            font-size: 0.875rem;
+            color: #999;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .account-remove {
+            background: rgba(239, 68, 68, 0.1);
+            border: none;
+            color: var(--accent-red);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .account-remove:hover {
+            background: var(--accent-red);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.625rem;
+            font-weight: 600;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: white;
+            color: black;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 280px;
+            border: 1px solid var(--border-color);
+        }
+
+        .toast.show {
+            display: flex;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .toast svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .toast.success {
+            background: #d1fae5;
+            color: #065f46;
+            border-color: #6ee7b7;
+        }
+
+        .toast.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-color: #fca5a5;
+        }
+
+        .toast.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #93c5fd;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+
+        .footer {
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+            background: var(--bg-primary);
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+            }
+
+            .controls {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .search-container {
+                max-width: 22rem;
+            }
+
+            .category-filters {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .logo-gradient,
+            .logo-text {
+                font-size: 1.5rem;
+            }
+
+            .nav-container {
+                height: 56px;
+                padding: 0 1rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero-logo {
+                font-size: 2.25rem;
+            }
+
+            .featured-title {
+                font-size: 1.375rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="toast" class="toast"></div>
+
+    <div id="lightbox" class="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">
+            <i data-lucide="x"></i>
+        </button>
+        <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">
+            <i data-lucide="chevron-left"></i>
+        </button>
+        <div class="lightbox-content">
+            <img id="lightboxImage" class="lightbox-image" src="" alt="">
+            <div id="lightboxCounter" class="lightbox-counter"></div>
+        </div>
+        <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">
+            <i data-lucide="chevron-right"></i>
+        </button>
+    </div>
+
+    <div id="authModal" class="auth-modal">
+        <div class="auth-container">
+            <button class="close-modal-btn" onclick="closeAuthModal()">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div class="auth-logo">
+                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg" alt="StreamX News">
+            </div>
+            
+            <div id="loginView" class="auth-view">
+                <h2 class="auth-title">Welcome Back</h2>
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <div style="text-align: right; margin-bottom: 1rem;">
+                        <a onclick="showForgotPassword()" style="color: var(--accent-blue); font-size: 0.875rem; cursor: pointer;">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" id="loginBtn">
+                        <i data-lucide="log-in"></i>
+                        <span>Login</span>
+                    </button>
+                </form>
+                <p class="auth-switch">
+                    Don't have an account? <a onclick="showRegisterView()">Register</a>
+                </p>
+            </div>
+
+            <div id="registerView" class="auth-view" style="display: none;">
+                <h2 class="auth-title">Create Account</h2>
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="regName" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="regEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="regPassword" placeholder="Create a password (min 6 characters)" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" id="registerBtn">
+                        <i data-lucide="user-plus"></i>
+                        <span>Register</span>
+                    </button>
+                </form>
+                <p class="auth-switch">
+                    Already have an account? <a onclick="showLoginView()">Login</a>
+                </p>
+            </div>
+
+            <div id="forgotPasswordView" class="auth-view" style="display: none;">
+                <h2 class="auth-title">Reset Password</h2>
+                <form id="forgotPasswordForm" class="auth-form">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="forgotEmail" placeholder="Enter your email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" id="forgotBtn">
+                        <i data-lucide="mail"></i>
+                        <span>Send Reset Link</span>
+                    </button>
+                </form>
+                <p class="auth-switch">
+                    <a onclick="showLoginView()">Back to Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="profileModal" class="profile-modal">
+        <div class="profile-container">
+            <button class="close-modal-btn" onclick="closeProfileModal()" style="z-index: 10;">
+                <i data-lucide="x"></i>
+            </button>
+            
+            <div class="profile-header">
+                <div class="profile-avatar-large" id="profileAvatarLarge" onclick="openAvatarLightbox()">
+                    <img id="profileAvatarImg" src="" alt="">
+                </div>
+                <h2 class="profile-name" id="profileName"></h2>
+                <p class="profile-email" id="profileEmail"></p>
+                <p class="profile-bio" id="profileBio"></p>
+                
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="profilePosts">0</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="profileLikes">0</div>
+                        <div class="stat-label">Likes</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="profileViews">0</div>
+                        <div class="stat-label">Views</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-body">
+                <div id="profileSocialSection" class="profile-section" style="display: none;">
+                    <h3 class="section-title">
+                        <i data-lucide="link" style="width: 18px; height: 18px; display: inline; vertical-align: middle;"></i>
+                        Social Links
+                    </h3>
+                    <div class="social-links" id="profileSocialLinks"></div>
+                </div>
+
+                <div class="profile-section">
+                    <h3 class="section-title">
+                        <i data-lucide="file-text" style="width: 18px; height: 18px; display: inline; vertical-align: middle;"></i>
+                        Posts
+                    </h3>
+                    <div class="profile-posts" id="profilePostsList"></div>
+                </div>
+
+                <div id="profileOwnActions" class="profile-actions" style="display: none;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="editProfile()">
+                        <i data-lucide="edit"></i>
+                        <span>Edit Profile</span>
+                    </button>
+                    <button class="btn btn-secondary" style="flex: 1;" onclick="logout()">
+                        <i data-lucide="log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="accountSwitcher" class="account-switcher">
+        <div class="account-panel">
+            <div class="account-header">
+                <h2 class="account-title">
+                    <i data-lucide="users" style="width: 20px; height: 20px; display: inline; vertical-align: middle;"></i>
+                    Accounts
+                </h2>
+                <button class="close-modal-btn" onclick="closeAccountSwitcher()">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="account-list" id="accountList"></div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container" id="logoContainer">
+                <span class="logo-gradient" id="logoGradient">StreamX</span>
+                <span class="logo-text">News</span>
+            </div>
+            <div class="nav-actions">
+                <button class="icon-btn" onclick="openCreatePost()" title="Create Post">
+                    <i data-lucide="plus-circle"></i>
+                </button>
+                <button id="authBtn" class="icon-btn" onclick="handleAuthClick()" title="Account">
+                    <i data-lucide="user"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="mainContent">
+        <div id="homePage" class="container">
+            <div class="hero">
+                <div class="hero-badge">
+                    <i data-lucide="sparkles"></i>
+                    <span>Your Daily Dose of News</span>
+                </div>
+                <div class="hero-logo">
+                    <span class="logo-gradient" id="heroGradient">StreamX</span>
+                    <span style="color: white; font-weight: 300;">News</span>
+                </div>
+                <p class="hero-description">
+                    Stay informed with the latest stories from tech, gaming, entertainment, and beyond.
+                </p>
+            </div>
+
+            <div class="apps-section">
+                <h3 class="apps-header">Download our Other Apps from beelzeapps.co.za</h3>
+                <div class="apps-container">
+                    <div class="app-card" onclick="window.open('https://beelzeapps.co.za', '_blank')">
+                        <div class="app-logo">
+                            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/fe877e726_1771025380555.jpg" alt="StreamX">
+                        </div>
+                        <div class="app-name">StreamX</div>
+                    </div>
+                    <div class="app-card" onclick="window.open('https://beelzeapps.co.za', '_blank')">
+                        <div class="app-logo">
+                            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg" alt="StreamXChat">
+                        </div>
+                        <div class="app-name">StreamXChat</div>
+                    </div>
+                    <div class="app-card" onclick="window.open('https://beelzeapps.co.za', '_blank')">
+                        <div class="app-logo">
+                            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/942107516_1771025383746.jpg" alt="Dark Master Store">
+                        </div>
+                        <div class="app-name">Dark Master Store</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="search-container">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="searchInput" 
+                        placeholder="Search news..."
+                    >
+                </div>
+                <div class="category-filters" id="categoryFilters">
+                    <button class="category-btn active" data-category="All">
+                        <i data-lucide="layers"></i>
+                        <span>All</span>
+                    </button>
+                    <button class="category-btn" data-category="Tech">
+                        <i data-lucide="monitor"></i>
+                        <span>Tech</span>
+                    </button>
+                    <button class="category-btn" data-category="Gaming">
+                        <i data-lucide="gamepad-2"></i>
+                        <span>Gaming</span>
+                    </button>
+                    <button class="category-btn" data-category="Entertainment">
+                        <i data-lucide="film"></i>
+                        <span>Entertainment</span>
+                    </button>
+                    <button class="category-btn" data-category="Sports">
+                        <i data-lucide="trophy"></i>
+                        <span>Sports</span>
+                    </button>
+                    <button class="category-btn" data-category="Business">
+                        <i data-lucide="briefcase"></i>
+                        <span>Business</span>
+                    </button>
+                    <button class="category-btn" data-category="Science">
+                        <i data-lucide="atom"></i>
+                        <span>Science</span>
+                    </button>
+                    <button class="category-btn" data-category="Breaking News">
+                        <i data-lucide="zap"></i>
+                        <span>Breaking News</span>
+                    </button>
+                    <button class="category-btn" data-category="Fun">
+                        <i data-lucide="smile"></i>
+                        <span>Fun</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="allArticlesContainer"></div>
+        </div>
+                
+        <div id="articlePage" class="container article-detail" style="display: none;"></div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="logo-container">
+                <span class="logo-gradient" style="font-size: 1.5rem;">StreamX</span>
+                <span class="logo-text" style="font-size: 1.5rem;">News</span>
+            </div>
+            <p class="footer-text">
+                © <span id="currentYear"></span> StreamX News. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+ <script type="module">
+
+// Firebase Imports and Initialization
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getFirestore, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAid5pHA67dkKtGICzSpO850JqGpLLGcLU",
+    authDomain: "streamxnewsapp.firebaseapp.com",
+    projectId: "streamxnewsapp",
+    storageBucket: "streamxnewsapp.firebasestorage.app",
+    messagingSenderId: "758268506712",
+    appId: "1:758268506712:web:b41d40f49a1f7a34e1102d",
+    measurementId: "G-JL9EH3JRZG"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const messaging = getMessaging(app);
+
+// Collections
+const articlesCol = collection(db, 'articles');
+const usersCol = collection(db, 'users');
+
+// Global Variables
+let currentUser = null;
+let allArticles = [];
+let currentCategory = 'All';
+let searchQuery = '';
+let lightboxImages = [];
+let currentLightboxIndex = 0;
+let viewedArticles = JSON.parse(localStorage.getItem('streamxViewedArticles') || '[]');
+let likedArticles = JSON.parse(localStorage.getItem('streamxLikedArticles') || '{}');
+
+// Default Articles with Profile Pictures
+const defaultArticles = [
+    {
+        id: 'default_0',
+        title: "Someone is talking from Limpopo 🤣🇿🇦",
+        summary: "Boyz Are you 👂 very well🤣.",
+        content: "Baa Bolela 🫢😭🍑",
+        category: "Fun",
+        images: ["https://i.postimg.cc/yNmVtrqY/FB-IMG-1767696323411.jpg"],
+        author: "StreamX News",
+        profile_picture: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg",
+        user_id: "default",
+        featured: true,
+        views: 156000,
+        likes: 45240,
+        liked_by: [],
+        created_date: "2025-12-15T10:30:00.000Z",
+        isDefault: true
+    },
+    {
+        id: 'default_1',
+        title: "Our New Year 2026 calender 🤣",
+        summary: "Our New year 2026 calendar 🔞🤣.",
+        content: "We have already started our new year calendar of 2026 😭🤣.",
+        category: "Entertainment",
+        images: ["https://i.postimg.cc/ZRB3zScK/1768945685543.jpg"],
+        author: "StreamX News",
+        profile_picture: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg",
+        user_id: "default",
+        views: 89000,
+        likes: 24350,
+        liked_by: [],
+        created_date: "2026-01-05T14:20:00.000Z",
+        isDefault: true
+    },
+    {
+        id: 'default_2',
+        title: "ForexEdge is Changing Lives 🐺📈🇿🇦",
+        summary: "We win Daily with MASSIVE INVESTMENTS 😄📈.",
+        content: "We win Daily with MASSIVE INVESTMENTS 😄📈. ForexEdge — Turn Your Investments into Incredible Returns! Visit: https://forexedge.co.za",
+        category: "Business",
+        images: ["https://i.postimg.cc/kGGWKTkx/Notepad-202601300754-36302.jpg"],
+        author: "Forex Edge Investors 🐺📈",
+        profile_picture: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg",
+        user_id: "default",
+        views: 124000,
+        likes: 35960,
+        liked_by: [],
+        created_date: "2026-01-28T09:45:00.000Z",
+        isDefault: true
+    },
+    {
+        id: 'default_3',
+        title: "Help to find a Missing Person",
+        summary: "DIKGALENEWS URGENT UPDATE: MISSING PERSON ALERT",
+        content: "DIKGALENEWS URGENT UPDATE: MISSING PERSON ALERT. Sebayeng Police Seek Public Help. Anyone with information please contact local authorities.",
+        category: "Breaking News",
+        images: ["https://i.postimg.cc/RhwQqtQ9/1769495808385.jpg"],
+        author: "Dikgaleng News",
+        profile_picture: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg",
+        user_id: "default",
+        views: 203000,
+        likes: 58870,
+        liked_by: [],
+        created_date: "2026-01-25T16:30:00.000Z",
+        isDefault: true
+    },
+    {
+        id: 'default_4',
+        title: "Basadi Balena 😭",
+        summary: "The Truth is She's not yours 😭",
+        content: "Nice thing to know as MJITA 😄🙂‍↔️",
+        category: "Entertainment",
+        images: ["https://i.postimg.cc/RZV74Tkt/FB-IMG-1767679218340.jpg"],
+        author: "Sixt SEVEN JG",
+        profile_picture: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg",
+        user_id: "default",
+        views: 67000,
+        likes: 19430,
+        liked_by: [],
+        created_date: "2025-12-28T18:15:00.000Z",
+        isDefault: true
+    }
+];
+
+// Gradient Colors
+const gradients = [
+    { from: '#00d4ff', to: '#9b59b6' },
+    { from: '#ff6b6b', to: '#feca57' },
+    { from: '#00b894', to: '#0984e3' },
+    { from: '#fd79a8', to: '#a29bfe' },
+    { from: '#fdcb6e', to: '#e17055' },
+    { from: '#74b9ff', to: '#fd79a8' },
+    { from: '#55efc4', to: '#81ecec' },
+    { from: '#ff7675', to: '#d63031' },
+    { from: '#a29bfe', to: '#6c5ce7' },
+    { from: '#ffeaa7', to: '#fdcb6e' }
+];
+
+// Helper Functions
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const iconMap = {
+        success: 'check-circle',
+        error: 'alert-circle',
+        info: 'info'
+    };
+    toast.innerHTML = `<i data-lucide="${iconMap[type]}"></i><span>${message}</span>`;
+    toast.className = `toast show ${type}`;
+    lucide.createIcons();
+    setTimeout(() => {
+        toast.className = 'toast';
+    }, 3500);
+}
+
+function formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+    return num.toString();
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
+
+function getCategoryClass(category) {
+    const classes = {
+        'Tech': 'badge-tech',
+        'Gaming': 'badge-gaming',
+        'Entertainment': 'badge-entertainment',
+        'Sports': 'badge-sports',
+        'Business': 'badge-business',
+        'Science': 'badge-science',
+        'Breaking News': 'badge-breaking',
+        'Fun': 'badge-fun'
+    };
+    return classes[category] || 'badge-tech';
+}
+
+function makeLinksClickable(text) {
+    if (!text) return '';
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, '<a href__="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+
+function updateGradient() {
+    const randomIndex = Math.floor(Math.random() * gradients.length);
+    const gradient = gradients[randomIndex];
+    
+    document.documentElement.style.setProperty('--gradient-1-from', gradient.from);
+    document.documentElement.style.setProperty('--gradient-1-to', gradient.to);
+    
+    document.querySelectorAll('.logo-gradient, #heroGradient').forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${gradient.from} 0%, ${gradient.to} 100%)`;
+        el.style.webkitBackgroundClip = 'text';
+        el.style.webkitTextFillColor = 'transparent';
+        el.style.backgroundClip = 'text';
+    });
+}
+
+// Image Compression
+async function compressImage(base64String, maxSizeKB = 900) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            
+            const maxDimension = 1920;
+            if (width > maxDimension || height > maxDimension) {
+                if (width > height) {
+                    height = (height / width) * maxDimension;
+                    width = maxDimension;
+                } else {
+                    width = (width / height) * maxDimension;
+                    height = maxDimension;
+                }
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            let quality = 0.9;
+            let compressed = canvas.toDataURL('image/jpeg', quality);
+            
+            while (compressed.length > maxSizeKB * 1024 && quality > 0.1) {
+                quality -= 0.1;
+                compressed = canvas.toDataURL('image/jpeg', quality);
+            }
+            
+            resolve(compressed);
+        };
+        img.src = base64String;
+    });
+}
+
+function generateArticleCode() {
+    return 'ART_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+}
+
+function generateRandomViews() {
+    return Math.floor(Math.random() * (224211 - 5000 + 1)) + 5000;
+}
+
+function calculateLikes(views) {
+    const percentages = [20, 29, 40, 69];
+    const randomPercentage = percentages[Math.floor(Math.random() * percentages.length)];
+    return Math.floor(views * (randomPercentage / 100));
+}
+
+// Authentication Functions
+function showLoginView() {
+    document.getElementById('loginView').style.display = 'block';
+    document.getElementById('registerView').style.display = 'none';
+    document.getElementById('forgotPasswordView').style.display = 'none';
+    lucide.createIcons();
+}
+
+function showRegisterView() {
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('registerView').style.display = 'block';
+    document.getElementById('forgotPasswordView').style.display = 'none';
+    lucide.createIcons();
+}
+
+function showForgotPassword() {
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('registerView').style.display = 'none';
+    document.getElementById('forgotPasswordView').style.display = 'block';
+    lucide.createIcons();
+}
+
+function openAuthModal() {
+    document.getElementById('authModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    lucide.createIcons();
+}
+
+function closeAuthModal() {
+    document.getElementById('authModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+async function handleAuthClick() {
+    if (currentUser) {
+        viewUserProfile(currentUser.uid);
+    } else {
+        openAuthModal();
+    }
+}
+
+// Login
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const btn = document.getElementById('loginBtn');
+    
+    btn.disabled = true;
+    btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i><span>Logging in...</span>';
+    lucide.createIcons();
+    
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
+        closeAuthModal();
+        showToast('Welcome back!', 'success');
+    } catch (error) {
+        showToast(error.message, 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="log-in"></i><span>Login</span>';
+        lucide.createIcons();
+    }
+});
+
+// Register
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const btn = document.getElementById('registerBtn');
+    
+    btn.disabled = true;
+    btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i><span>Creating account...</span>';
+    lucide.createIcons();
+    
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await addDoc(usersCol, {
+            uid: userCredential.user.uid,
+            name: name,
+            email: email,
+            bio: '',
+            profile_picture: null,
+            website_url: '',
+            whatsapp: '',
+            facebook: '',
+            instagram: '',
+            contact_email: '',
+            created_date: serverTimestamp()
+        });
+        closeAuthModal();
+        showToast('Account created successfully!', 'success');
+    } catch (error) {
+        showToast(error.message, 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="user-plus"></i><span>Register</span>';
+        lucide.createIcons();
+    }
+});
+
+// Forgot Password
+document.getElementById('forgotPasswordForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('forgotEmail').value;
+    const btn = document.getElementById('forgotBtn');
+    
+    btn.disabled = true;
+    btn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i><span>Sending...</span>';
+    lucide.createIcons();
+    
+    try {
+        await sendPasswordResetEmail(auth, email);
+        showToast('Password reset email sent! Check your inbox.', 'success');
+        showLoginView();
+    } catch (error) {
+        showToast(error.message, 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="mail"></i><span>Send Reset Link</span>';
+        lucide.createIcons();
+    }
+});
+
+async function logout() {
+    try {
+        await signOut(auth);
+        closeProfileModal();
+        showToast('Logged out successfully', 'success');
+    } catch (error) {
+        showToast(error.message, 'error');
+    }
+}
+
+// Auth State Observer
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        const userQuery = query(usersCol);
+        const userSnapshot = await getDocs(userQuery);
+        userSnapshot.forEach((doc) => {
+            if (doc.data().uid === user.uid) {
+                currentUser = { id: doc.id, uid: user.uid, ...doc.data() };
+            }
+        });
+        updateAuthButton();
+    } else {
+        currentUser = null;
+        updateAuthButton();
+    }
+});
+
+function updateAuthButton() {
+    const authBtn = document.getElementById('authBtn');
+    if (currentUser && currentUser.profile_picture) {
+        authBtn.innerHTML = `<img src="${currentUser.profile_picture}" alt="${currentUser.name}">`;
+    } else if (currentUser) {
+        authBtn.innerHTML = `<i data-lucide="user-circle"></i>`;
+    } else {
+        authBtn.innerHTML = `<i data-lucide="user"></i>`;
+    }
+    lucide.createIcons();
+}
+
+// Profile Functions
+async function viewUserProfile(userId) {
+    const isDefault = userId === 'default';
+    
+    if (isDefault) {
+        const defaultUser = {
+            name: 'StreamX News',
+            email: 'team@streamxnews.com',
+            bio: 'Official StreamX News account',
+            profile_picture: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg'
+        };
+        displayProfile(defaultUser, userId, true);
+    } else {
+        const userQuery = query(usersCol);
+        const userSnapshot = await getDocs(userQuery);
+        userSnapshot.forEach((doc) => {
+            if (doc.data().uid === userId || doc.id === userId) {
+                displayProfile(doc.data(), userId, false);
+            }
+        });
+    }
+}
+
+function displayProfile(userData, userId, isDefault) {
+    const avatarImg = document.getElementById('profileAvatarImg');
+    if (userData.profile_picture) {
+        avatarImg.src = userData.profile_picture;
+    } else {
+        avatarImg.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect fill="%23666" width="120" height="120"/><text x="50%" y="50%" font-size="48" fill="white" text-anchor="middle" dy=".3em">' + userData.name[0] + '</text></svg>';
+    }
+    
+    document.getElementById('profileName').textContent = userData.name;
+    document.getElementById('profileEmail').textContent = userData.email;
+    document.getElementById('profileBio').textContent = userData.bio || 'No bio yet';
+    
+    const userArticles = [...allArticles.filter(a => a.user_id === userId), ...(isDefault ? defaultArticles : [])];
+    const totalLikes = userArticles.reduce((sum, a) => sum + (a.likes || 0), 0);
+    const totalViews = userArticles.reduce((sum, a) => sum + (a.views || 0), 0);
+    
+    document.getElementById('profilePosts').textContent = userArticles.length;
+    document.getElementById('profileLikes').textContent = formatNumber(totalLikes);
+    document.getElementById('profileViews').textContent = formatNumber(totalViews);
+    
+    // Social Links
+    const socialSection = document.getElementById('profileSocialSection');
+    const socialLinks = document.getElementById('profileSocialLinks');
+    let socialHTML = '';
+    
+    if (userData.website_url) socialHTML += `<div class="social-link"><i data-lucide="globe"></i><a href__="${userData.website_url}" target="_blank">${userData.website_url}</a></div>`;
+    if (userData.whatsapp) socialHTML += `<div class="social-link"><i data-lucide="phone"></i><a href__="https://wa.me/${userData.whatsapp.replace(/[^0-9]/g, '')}" target="_blank">${userData.whatsapp}</a></div>`;
+    if (userData.facebook) socialHTML += `<div class="social-link"><i data-lucide="facebook"></i><a href__="https://facebook.com/${userData.facebook}" target="_blank">@${userData.facebook}</a></div>`;
+    if (userData.instagram) socialHTML += `<div class="social-link"><i data-lucide="instagram"></i><a href__="https://instagram.com/${userData.instagram.replace('@', '')}" target="_blank">${userData.instagram}</a></div>`;
+    if (userData.contact_email) socialHTML += `<div class="social-link"><i data-lucide="mail"></i><a href__="mailto:${userData.contact_email}">${userData.contact_email}</a></div>`;
+    
+    if (socialHTML) {
+        socialLinks.innerHTML = socialHTML;
+        socialSection.style.display = 'block';
+    } else {
+        socialSection.style.display = 'none';
+    }
+    
+    // Posts
+    const postsList = document.getElementById('profilePostsList');
+    if (userArticles.length > 0) {
+        postsList.innerHTML = userArticles.slice(0, 5).map(article => `
+            <div class="profile-post-item" onclick="closeProfileModal(); showArticle('${article.id}')">
+                <div class="profile-post-preview">
+                    <div class="post-thumbnail">
+                        <img src="${article.images ? article.images[0] : article.image_url}" alt="${article.title}">
+                    </div>
+                    <div class="post-preview-content">
+                        <div class="post-preview-title">${article.title}</div>
+                        <div class="post-preview-meta">
+                            <span><i data-lucide="eye" style="width: 12px; height: 12px; display: inline;"></i> ${formatNumber(article.views || 0)}</span>
+                            <span><i data-lucide="heart" style="width: 12px; height: 12px; display: inline;"></i> ${formatNumber(article.likes || 0)}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    } else {
+        postsList.innerHTML = '<p style="color: #999; text-align: center;">No posts yet</p>';
+    }
+    
+    const isOwnProfile = currentUser && (userId === currentUser.uid || userId === currentUser.id);
+    document.getElementById('profileOwnActions').style.display = isOwnProfile && !isDefault ? 'flex' : 'none';
+    
+    document.getElementById('profileModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    lucide.createIcons();
+}
+
+function closeProfileModal() {
+    document.getElementById('profileModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function openAvatarLightbox() {
+    const img = document.getElementById('profileAvatarImg').src;
+    if (img && !img.includes('data:image/svg')) {
+        openLightbox([img], 0);
+    }
+}
+
+// Article Functions
+async function loadArticles() {
+    const articlesQuery = query(articlesCol, orderBy('created_date', 'desc'));
+    onSnapshot(articlesQuery, (snapshot) => {
+        allArticles = [];
+        snapshot.forEach((doc) => {
+            allArticles.push({ id: doc.id, ...doc.data() });
+        });
+        renderArticles();
+    });
+}
+
+function renderArticles() {
+    const combined = [...defaultArticles, ...allArticles];
+    
+    let filtered = combined.filter(article => {
+        const matchesCategory = currentCategory === 'All' || article.category === currentCategory;
+        const matchesSearch = !searchQuery || 
+            article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            article.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (article.content && article.content.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchesCategory && matchesSearch;
+    });
+    
+    filtered.sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+    
+    const featured = filtered.find(a => a.featured);
+    const regular = filtered.filter(a => !a.featured);
+    
+    let html = '';
+    
+    if (featured && currentCategory === 'All' && !searchQuery) {
+        html += renderFeaturedArticle(featured);
+    }
+    
+    if (regular.length > 0) {
+        html += `
+            <div class="section-header" style="margin-top: ${featured && currentCategory === 'All' && !searchQuery ? '3rem' : '0'};">
+                <span>${searchQuery ? 'Search Results' : currentCategory === 'All' ? 'Latest News' : currentCategory}</span>
+                <span>(${regular.length})</span>
+                <span class="section-line"></span>
+            </div>
+            <div class="articles-grid">
+                ${regular.map((article, i) => renderArticleCard(article, i)).join('')}
+            </div>
+        `;
+    } else if (!featured) {
+        html += `
+            <div class="empty-state">
+                <i data-lucide="inbox" style="width: 64px; height: 64px; color: var(--text-tertiary); margin: 0 auto 1rem;"></i>
+                <p class="empty-title">No articles found</p>
+            </div>
+        `;
+    }
+    
+    document.getElementById('allArticlesContainer').innerHTML = html;
+    lucide.createIcons();
+}
+
+function renderFeaturedArticle(article) {
+    const images = article.images || [article.image_url];
+    const isLiked = likedArticles[article.id] === true;
+    const avatarHTML = article.profile_picture ? `<img src="${article.profile_picture}" alt="${article.author}">` : article.author[0];
+    
+    return `
+        <div class="section-header" style="margin-top: 0;">
+            <span>Featured Story</span>
+            <span class="section-line"></span>
+        </div>
+        <div class="featured-article">
+            <div class="featured-card" onclick="showArticle('${article.id}')">
+                <div class="post-header">
+                    <div class="post-avatar" onclick="event.stopPropagation(); viewUserProfile('${article.user_id}')" style="cursor: pointer;">
+                        ${avatarHTML}
+                    </div>
+                    <div class="post-author-info">
+                        <div class="post-author" onclick="event.stopPropagation(); viewUserProfile('${article.user_id}')" style="cursor: pointer;">${article.author}</div>
+                        <div class="article-date">
+                            <i data-lucide="calendar"></i>
+                            ${formatDate(article.created_date)}
+                        </div>
+                    </div>
+                    <div class="category-badge ${getCategoryClass(article.category)}">
+                        ${article.category}
+                    </div>
+                </div>
+                <div class="post-content-text">
+                    <h2 class="featured-title">${article.title}</h2>
+                    <p class="featured-summary clickable-content">${makeLinksClickable(article.summary)}</p>
+                </div>
+                <div class="featured-image">
+                    <img src="${images[0]}" alt="${article.title}">
+                </div>
+                <div class="article-stats">
+                    <div class="stat-item">
+                        <i data-lucide="eye"></i>
+                        <span>${formatNumber(article.views || 0)}</span>
+                    </div>
+                    <div class="stat-item like-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${article.id}')">
+                        <i data-lucide="heart"></i>
+                        <span>${formatNumber(article.likes || 0)}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderArticleCard(article, index) {
+    const images = article.images || [article.image_url];
+    const isLiked = likedArticles[article.id] === true;
+    const avatarHTML = article.profile_picture ? `<img src="${article.profile_picture}" alt="${article.author}">` : article.author[0];
+    
+    return `
+        <div class="article-card" onclick="showArticle('${article.id}')" style="animation-delay: ${index * 0.05}s">
+            <div class="post-header">
+                <div class="post-avatar" onclick="event.stopPropagation(); viewUserProfile('${article.user_id}')" style="cursor: pointer;">
+                    ${avatarHTML}
+                </div>
+                <div class="post-author-info">
+                    <div class="post-author" onclick="event.stopPropagation(); viewUserProfile('${article.user_id}')" style="cursor: pointer;">${article.author}</div>
+                    <div class="article-date">
+                        <i data-lucide="calendar"></i>
+                        ${formatDate(article.created_date)}
+                    </div>
+                </div>
+                <div class="category-badge ${getCategoryClass(article.category)}">
+                    ${article.category}
+                </div>
+            </div>
+            <div class="article-content">
+                <h3 class="article-title">${article.title}</h3>
+                <p class="article-summary clickable-content">${makeLinksClickable(article.summary)}</p>
+            </div>
+            <div class="article-image">
+                <img src="${images[0]}" alt="${article.title}">
+            </div>
+            <div class="article-stats">
+                <div class="stat-item">
+                    <i data-lucide="eye"></i>
+                    <span>${formatNumber(article.views || 0)}</span>
+                </div>
+                <div class="stat-item like-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${article.id}')">
+                    <i data-lucide="heart"></i>
+                    <span>${formatNumber(article.likes || 0)}</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+async function showArticle(articleId) {
+    let article = defaultArticles.find(a => a.id === articleId);
+    if (!article) {
+        const articleDoc = await getDoc(doc(db, 'articles', articleId));
+        if (articleDoc.exists()) {
+            article = { id: articleDoc.id, ...articleDoc.data() };
+        }
+    }
+    if (!article) return;
+    
+    incrementViews(articleId, article.isDefault);
+    
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('articlePage').style.display = 'block';
+    
+    const images = article.images || [article.image_url];
+    const isLiked = likedArticles[article.id] === true;
+    const avatarHTML = article.profile_picture ? `<img src="${article.profile_picture}" alt="${article.author}">` : article.author[0];
+    
+    document.getElementById('articlePage').innerHTML = `
+        <button class="btn btn-secondary" onclick="showHome()" style="margin-bottom: 1.5rem;">
+            <i data-lucide="arrow-left"></i>
+            <span>Back</span>
+        </button>
+        <article style="background: var(--bg-card); border-radius: 0.75rem; border: 1px solid var(--border-color); overflow: hidden;">
+            <div class="post-header">
+                <div class="post-avatar" onclick="viewUserProfile('${article.user_id}')" style="cursor: pointer;">
+                    ${avatarHTML}
+                </div>
+                <div class="post-author-info">
+                    <div class="post-author" onclick="viewUserProfile('${article.user_id}')" style="cursor: pointer;">${article.author}</div>
+                    <div class="article-date">
+                        <i data-lucide="calendar"></i>
+                        ${formatDate(article.created_date)}
+                    </div>
+                </div>
+                <div class="category-badge ${getCategoryClass(article.category)}">
+                    ${article.category}
+                </div>
+            </div>
+            <div style="padding: 2rem 1.5rem;">
+                <h1>${article.title}</h1>
+                <p style="font-size: 1.1875rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem;" class="clickable-content">${makeLinksClickable(article.summary)}</p>
+                <div class="article-stats" style="justify-content: flex-start; gap: 2rem; border-top: none; padding: 0 0 1rem 0;">
+                    <div class="stat-item">
+                        <i data-lucide="eye"></i>
+                        <span>${formatNumber(article.views || 0)} views</span>
+                    </div>
+                    <div class="stat-item like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${article.id}')" style="cursor: pointer;">
+                        <i data-lucide="heart"></i>
+                        <span>${formatNumber(article.likes || 0)} likes</span>
+                    </div>
+                </div>
+            </div>
+            <img src="${images[0]}" onclick='openLightbox(${JSON.stringify(images)}, 0)' style="width: 100%; cursor: pointer;">
+            ${images.length > 1 ? renderImageGallery(images) : ''}
+            <div style="padding: 2rem 1.5rem;" class="clickable-content">
+                ${formatMarkdown(makeLinksClickable(article.content || article.summary))}
+            </div>
+        </article>
+    `;
+    
+    lucide.createIcons();
+    window.scrollTo(0, 0);
+}
+
+function showHome() {
+    document.getElementById('homePage').style.display = 'block';
+    document.getElementById('articlePage').style.display = 'none';
+    window.scrollTo(0, 0);
+}
+
+function renderImageGallery(images) {
+    if (images.length <= 1) return '';
+    return `
+        <div class="image-gallery">
+            ${images.map((img, i) => `
+                <div class="gallery-image" onclick='openLightbox(${JSON.stringify(images)}, ${i})'>
+                    <img src="${img}" alt="Image ${i + 1}">
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function formatMarkdown(text) {
+    if (!text) return '';
+    let html = text
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+        .replace(/\n\n/gim, '</p><p>')
+        .replace(/^\- (.+)$/gim, '<li>$1</li>')
+        .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    return `<p>${html}</p>`;
+}
+
+async function incrementViews(articleId, isDefault) {
+    if (viewedArticles.includes(articleId)) return;
+    
+    viewedArticles.push(articleId);
+    localStorage.setItem('streamxViewedArticles', JSON.stringify(viewedArticles));
+    
+    if (isDefault) {
+        const article = defaultArticles.find(a => a.id === articleId);
+        if (article) article.views++;
+        return;
+    }
+    
+    const articleRef = doc(db, 'articles', articleId);
+    const articleDoc = await getDoc(articleRef);
+    if (articleDoc.exists()) {
+        const currentViews = articleDoc.data().views || 0;
+        await updateDoc(articleRef, { views: currentViews + 1 });
+    }
+}
+
+async function toggleLike(articleId) {
+    if (!currentUser) {
+        showToast('Please login to like posts', 'error');
+        openAuthModal();
+        return;
+    }
+    
+    const isLiked = likedArticles[articleId] === true;
+    const article = defaultArticles.find(a => a.id === articleId);
+    
+    if (article && article.isDefault) {
+        if (isLiked) {
+            delete likedArticles[articleId];
+            article.likes = Math.max(0, article.likes - 1);
+        } else {
+            likedArticles[articleId] = true;
+            article.likes++;
+        }
+        localStorage.setItem('streamxLikedArticles', JSON.stringify(likedArticles));
+        renderArticles();
+        return;
+    }
+    
+    const articleRef = doc(db, 'articles', articleId);
+    const articleDoc = await getDoc(articleRef);
+    if (articleDoc.exists()) {
+        const currentLikes = articleDoc.data().likes || 0;
+        const likedBy = articleDoc.data().liked_by || [];
+        
+        if (isLiked) {
+            delete likedArticles[articleId];
+            await updateDoc(articleRef, {
+                likes: Math.max(0, currentLikes - 1),
+                liked_by: likedBy.filter(uid => uid !== currentUser.uid)
+            });
+        } else {
+            likedArticles[articleId] = true;
+            await updateDoc(articleRef, {
+                likes: currentLikes + 1,
+                liked_by: [...likedBy, currentUser.uid]
+            });
+        }
+        
+        localStorage.setItem('streamxLikedArticles', JSON.stringify(likedArticles));
+    }
+}
+
+// Lightbox
+function openLightbox(images, index) {
+    lightboxImages = images;
+    currentLightboxIndex = index;
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function navigateLightbox(dir) {
+    currentLightboxIndex = (currentLightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+    updateLightbox();
+}
+
+function updateLightbox() {
+    document.getElementById('lightboxImage').src = lightboxImages[currentLightboxIndex];
+    document.getElementById('lightboxCounter').textContent = `${currentLightboxIndex + 1} / ${lightboxImages.length}`;
+}
+
+// Search & Filter
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    renderArticles();
+});
+
+document.getElementById('categoryFilters').addEventListener('click', (e) => {
+    const btn = e.target.closest('.category-btn');
+    if (!btn) return;
+    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCategory = btn.dataset.category;
+    renderArticles();
+});
+
+// Notifications
+async function requestNotificationPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+        await Notification.requestPermission();
+    }
+}
+
+function showNotification(title, body) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(title, {
+            body: body,
+            icon: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/698fc3ed52b4e9a1172a35ca/f3bf71daf_1771025377692.jpg'
+        });
+    }
+}
+
+// Initialize
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+updateGradient();
+setInterval(updateGradient, 180000);
+loadArticles();
+requestNotificationPermission();
+lucide.createIcons();
+
+// Listen for new articles
+onSnapshot(query(articlesCol, orderBy('created_date', 'desc')), (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+            showNotification('New Article Posted!', change.doc.data().title);
+        }
+    });
+});
+    </script>
+</body>
+</html>
